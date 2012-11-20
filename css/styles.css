@@ -1,0 +1,51 @@
+body {
+  padding-bottom: 1em;
+}
+
+.domains-table .action-column {
+  width: 5em;
+}
+
+.domains-table input[type="text"] {
+  margin-bottom: 0px;
+}
+
+.fullwidth {
+  width: 100%;
+}
+
+.links-header {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.links-list li {
+  border-bottom: 1px solid #ddd;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  word-wrap: break-word;
+}
+
+.links-list li:nth-child(odd) {
+  background-color: #F5F5F5;
+}
+
+/* hide ng-cloaked elements */
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none;
+}
+
+.nomargins {
+  margin: 0;
+}
+
+/* horizontal alignment */
+.txtC, table .txtC, table tr .txtC{text-align:center;}
+.txtL, table .txtL, table tr .txtL{text-align:left;}
+.txtR, table .txtR, table tr .txtR{text-align:right;}
+
+/* vertical alignment */
+.txtT, table .txtT, table tr .txtT{vertical-align:top;}
+.txtB, table .txtB, table tr .txtB{vertical-align:bottom;}
+.txtM, table .txtM, table tr .txtM{vertical-align:middle;}
