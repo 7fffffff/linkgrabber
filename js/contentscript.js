@@ -13,7 +13,6 @@ if (hasLinks) {
 
   chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
     if (message !== "getLinks") {
-      sendResponse({});
       return;
     }
 

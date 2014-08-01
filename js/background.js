@@ -18,8 +18,6 @@ chrome.extension.onMessage.addListener(function (message, sender, sendResponse) 
   if (message === "showAction") {
     chrome.pageAction.show(sender.tab.id);
   }
-
-  sendResponse({});
 });
 
 chrome.pageAction.onClicked.addListener(function (tab) {
