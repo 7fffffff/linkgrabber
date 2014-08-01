@@ -31,11 +31,6 @@ body {
   background-color: #F5F5F5;
 }
 
-/* hide ng-cloaked elements */
-[ng\:cloak], [ng-cloak], .ng-cloak {
-  display: none;
-}
-
 .nomargins {
   margin: 0;
 }
