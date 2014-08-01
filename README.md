@@ -16,8 +16,8 @@ Icon files in images/ are derived from icons by FatCow
 (http://www.fatcow.com/free-icons) and licensed under the Creative Commons
 Attribution 3.0 License
 
-Files in vendor/angular are licensed under the MIT License
-(vendor/angular/LICENSE)
+Files in vendor/react are licensed under the apache-2.0 License
+(vendor/react/LICENSE)
 
 Files in vendor/bootstrap are licensed under the apache-2.0 license
 (vendor/bootstrap/LICENSE)

@@ -1,43 +1,9 @@
 <!DOCTYPE html>
-<html ng-app="LinkGrabber" ng-csp="" ng-controller="LinksCtrl">
-  <head>
-    <title>Extracted Links for {{ source }}</title>
-    <link href="/vendor/bootstrap/css/bootstrap.min.css" media="all" rel="stylesheet" type="text/css" />
-    <link href="/vendor/bootstrap/css/bootstrap-responsive.min.css" media="all" rel="stylesheet" type="text/css" />
-    <link href="/css/styles.css" media="all" rel="stylesheet" type="text/css" />
-  </head>
-  <body>
-    <div class="container-fluid" ng-cloak ng-show="status == 'expired'">
-      <h1>Data has Expired</h1>
-      <p>The link data has expired. Please close this tab and try again.</p>
-    </div>
+<title>Extracted Links</title>
+<link href="/vendor/bootstrap/css/bootstrap.min.css" media="all" rel="stylesheet" type="text/css" />
+<link href="/vendor/bootstrap/css/bootstrap-responsive.min.css" media="all" rel="stylesheet" type="text/css" />
+<link href="/css/styles.css" media="all" rel="stylesheet" type="text/css" />
 
-    <div class="container-fluid" ng-cloak ng-show="status == 'loaded'">
-      <h1 class="links-header">{{ source }}</h1>
-
-      <ul class="unstyled links-list">
-        <li ng-repeat="link in links">
-          <a href="{{ link.href }}">{{ link.href }}</a>
-        </li>
-      </ul>
-
-      <div ng-show="blockedLinks.length > 0">
-        <a ng-click="showBlockedLinks = true">{{ blockedLinks.length }} blocked link(s)</a>
-
-        <ul ng-show="showBlockedLinks" class="unstyled links-list">
-          <li ng-repeat="link in blockedLinks">
-            <a href="{{ link.href }}">{{ link.href }}</a>
-          </li>
-        </ul>
-      </div>
-
-      <div ng-show="dedupCount > 0">
-        {{ dedupCount }} duplicate link(s) not shown
-      </div>
-    </div>
-
-    <script type="text/javascript" src="/vendor/angular/angular.min.js"></script>
-    <script type="text/javascript" src="/js/util.js"></script>
-    <script type="text/javascript" src="/js/app.js"></script>
-  </body>
-</html>
+<div id="LinkList"></div>
+<script src="/vendor/react/react.js"></script>
+<script src="/js/LinkList.js"></script>

@@ -8,8 +8,6 @@ var tabData = {};
 
 chrome.runtime.onInstalled.addListener(function() {
   chrome.storage.sync.get(DEFAULT_SETTINGS, function(options) {
-    console.log("Installed");
-    console.log(options);
     chrome.storage.sync.set(options);
   });
 });
