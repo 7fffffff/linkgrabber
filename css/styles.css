@@ -2,16 +2,13 @@ body {
   padding-bottom: 1em;
 }
 
+ul.unstyled {
+  list-style: none;
+  padding-left: 0;
+}
+
 .domains-table .action-column {
   width: 5em;
-}
-
-.domains-table input[type="text"] {
-  margin-bottom: 0px;
-}
-
-.fullwidth {
-  width: 100%;
 }
 
 .links-header {
@@ -31,10 +28,6 @@ body {
   background-color: #F5F5F5;
 }
 
-.nomargins {
-  margin: 0;
-}
-
 /* horizontal alignment */
 .txtC, table .txtC, table tr .txtC{text-align:center;}
 .txtL, table .txtL, table tr .txtL{text-align:left;}
@@ -44,3 +37,7 @@ body {
 .txtT, table .txtT, table tr .txtT{vertical-align:top;}
 .txtB, table .txtB, table tr .txtB{vertical-align:bottom;}
 .txtM, table .txtM, table tr .txtM{vertical-align:middle;}
+
+.table tbody > tr > td.txtM {
+  vertical-align: middle;
+}

@@ -39,8 +39,10 @@ var Options = React.createClass({displayName: 'Options',
     var blockedDomains = this.state.blockedDomains.map(function (domain, index) {
       return (
         React.DOM.tr({key: domain}, 
-          React.DOM.td({className: "txtM"}, domain), 
-          React.DOM.td({className: "textM txtC action-column"}, 
+          React.DOM.td({className: "txtM"}, 
+            domain
+          ), 
+          React.DOM.td({className: "action-column"}, 
             React.DOM.button({className: "btn btn-block btn-danger", onClick: this.removeDomain.bind(this, index)}, 
               "remove"
             )
@@ -51,8 +53,8 @@ var Options = React.createClass({displayName: 'Options',
     return (
       React.DOM.div({className: "container-fluid"}, 
         React.DOM.h1(null, "Link Grabber Options"), 
-        React.DOM.div({className: "row-fluid"}, 
-          React.DOM.div({className: "span6"}, 
+        React.DOM.div({className: "row"}, 
+          React.DOM.div({className: "col-sm-6"}, 
             React.DOM.h2(null, "Blocked Domains"), 
             React.DOM.p(null, "Links from blocked domains will not be shown."), 
             React.DOM.table({className: "table table-striped domains-table"}, 
@@ -66,15 +68,15 @@ var Options = React.createClass({displayName: 'Options',
                 blockedDomains, 
                 React.DOM.tr(null, 
                   React.DOM.td(null, 
-                    React.DOM.form({className: "nomargins", onSubmit: this.blockDomain}, 
+                    React.DOM.form({onSubmit: this.blockDomain}, 
                       React.DOM.input({
                         type: "text", 
-                        className: "input-block-level", 
+                        className: "form-control", 
                         value: this.state.newBlockedDomain, 
                         onChange: this.handleNewBlockDomainChange})
                     )
                   ), 
-                  React.DOM.td({className: "txtM txtC action-column"}, 
+                  React.DOM.td({className: "action-column"}, 
                     React.DOM.button({className: "btn btn-block btn-primary", onClick: this.blockDomain}, 
                       "add"
                     )

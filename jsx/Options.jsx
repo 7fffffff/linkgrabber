@@ -39,8 +39,10 @@ var Options = React.createClass({
     var blockedDomains = this.state.blockedDomains.map(function (domain, index) {
       return (
         <tr key={domain}>
-          <td className="txtM">{domain}</td>
-          <td className="textM txtC action-column">
+          <td className="txtM">
+            {domain}
+          </td>
+          <td className="action-column">
             <button className="btn btn-block btn-danger" onClick={this.removeDomain.bind(this, index)} >
               remove
             </button>
@@ -51,8 +53,8 @@ var Options = React.createClass({
     return (
       <div className="container-fluid">
         <h1>Link Grabber Options</h1>
-        <div className="row-fluid">
-          <div className="span6">
+        <div className="row">
+          <div className="col-sm-6">
             <h2>Blocked Domains</h2>
             <p>Links from blocked domains will not be shown.</p>
             <table className="table table-striped domains-table">
@@ -66,15 +68,15 @@ var Options = React.createClass({
                 {blockedDomains}
                 <tr>
                   <td>
-                    <form className="nomargins" onSubmit={this.blockDomain}>
+                    <form onSubmit={this.blockDomain}>
                       <input
                         type="text"
-                        className="input-block-level"
+                        className="form-control"
                         value={this.state.newBlockedDomain}
                         onChange={this.handleNewBlockDomainChange} />
                     </form>
                   </td>
-                  <td className="txtM txtC action-column">
+                  <td className="action-column">
                     <button className="btn btn-block btn-primary" onClick={this.blockDomain}>
                       add
                     </button>
