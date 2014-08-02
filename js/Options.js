@@ -2,14 +2,14 @@
 
 var Options = React.createClass({displayName: 'Options',
   blockDomain: function (event) {
-    var val = this.refs.newField.getDOMNode().value.trim();
+    var val = this.state.newBlockedDomain.toLowerCase().trim();
     if (val === "") {
       return;
     }
     this.state.blockedDomains.push(val);
     chrome.storage.sync.set({blockedDomains: this.state.blockedDomains});
+    this.state.newBlockedDomain = "";
     this.setState(this.state);
-    this.refs.newField.getDOMNode().value = "";
     return false;
   },
   componentDidMount: function () {
@@ -22,8 +22,13 @@ var Options = React.createClass({displayName: 'Options',
   },
   getInitialState: function () {
     return {
-      blockedDomains: []
+      blockedDomains: [],
+      newBlockedDomain: ""
     };
+  },
+  handleNewBlockDomainChange: function (event) {
+    this.state.newBlockedDomain = event.target.value;
+    this.setState(this.state);
   },
   removeDomain: function (index) {
     this.state.blockedDomains.splice(index, 1)
@@ -62,7 +67,11 @@ var Options = React.createClass({displayName: 'Options',
                 React.DOM.tr(null, 
                   React.DOM.td(null, 
                     React.DOM.form({className: "nomargins", onSubmit: this.blockDomain}, 
-                      React.DOM.input({ref: "newField", type: "text", className: "input-block-level"})
+                      React.DOM.input({
+                        type: "text", 
+                        className: "input-block-level", 
+                        value: this.state.newBlockedDomain, 
+                        onChange: this.handleNewBlockDomainChange})
                     )
                   ), 
                   React.DOM.td({className: "txtM txtC action-column"}, 
