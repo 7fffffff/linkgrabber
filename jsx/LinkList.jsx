@@ -43,7 +43,7 @@ function blockDomains(links, blockedDomains) {
 }
 
 var LinkList = React.createClass({
-  componentWillMount: function () {
+  componentDidMount: function () {
     var self = this;
     chrome.tabs.query({active: true, windowId: chrome.windows.WINDOW_ID_CURRENT}, function(tabs) {
       chrome.storage.sync.get(null, function (options) {
@@ -51,7 +51,7 @@ var LinkList = React.createClass({
           var data = page.tabData[tabs[0].id];
           if (data) {
             self.setState({
-              links: data.links,
+              links: blockDomains(data.links, options.blockedDomains),
               source: data.source,
               options: options
             });
@@ -85,7 +85,6 @@ var LinkList = React.createClass({
     if (this.state.options.dedup) {
       links = dedup(links);
     }
-    links = blockDomains(links, this.state.options.blockedDomains);
     links = links.map(function (link) {
       return (
         <li key={link.href}>
