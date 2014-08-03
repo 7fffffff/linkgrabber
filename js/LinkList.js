@@ -97,7 +97,6 @@ var LinkList = React.createClass({displayName: 'LinkList',
         )
       );
     });
-    var filtered = total - links.length;
     return (
       React.DOM.div({className: "container-fluid"}, 
         React.DOM.h1({className: "links-header"}, this.state.source), 
