@@ -13,8 +13,6 @@ ul.unstyled {
 
 .links-header {
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .links-list li {
@@ -26,6 +24,10 @@ ul.unstyled {
 
 .links-list li:nth-child(odd) {
   background-color: #F5F5F5;
+}
+
+.status {
+  float: right;
 }
 
 /* horizontal alignment */

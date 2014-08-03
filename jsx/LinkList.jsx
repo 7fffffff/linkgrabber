@@ -53,7 +53,8 @@ var LinkList = React.createClass({
             self.setState({
               links: blockDomains(data.links, options.blockedDomains),
               source: data.source,
-              options: options
+              expired: false,
+              dedup: options.dedup
             });
             document.title = "Extracted Links for " + self.state.source;
           } else {
@@ -69,9 +70,13 @@ var LinkList = React.createClass({
     return {
       links: [],
       source: null,
-      options: {},
-      expired: false
+      expired: false,
+      dedup: true
     };  
+  },
+  toggleDedup: function () {
+    this.state.dedup = !this.state.dedup;
+    this.setState(this.state);
   },
   render: function () {
     if (this.state.expired) {
@@ -82,12 +87,12 @@ var LinkList = React.createClass({
     if (total == 0) {
       return null;
     }
-    if (this.state.options.dedup) {
+    if (this.state.dedup) {
       links = dedup(links);
     }
-    links = links.map(function (link) {
+    links = links.map(function (link, index) {
       return (
-        <li key={link.href}>
+        <li key={index}>
           <a href={link.href}>{link.href}</a>
         </li>
       );
@@ -96,9 +101,17 @@ var LinkList = React.createClass({
     return (
       <div className="container-fluid">
         <h1 className="links-header">{this.state.source}</h1>
-        <div>
+
+        <div className="status">
           {links.length} links of out {total} shown
         </div>
+        
+        <div className="checkbox">
+          <label>
+            <input type="checkbox" checked={this.state.dedup} onChange={this.toggleDedup} /> Hide duplicate links
+          </label>
+        </div>
+
         <ul className="unstyled links-list">
           {links}
         </ul>
