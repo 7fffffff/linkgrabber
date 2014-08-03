@@ -112,7 +112,7 @@ var LinkList = React.createClass({displayName: 'LinkList',
           )
         ), 
 
-        React.DOM.ul({className: "unstyled links-list"}, 
+        React.DOM.ul({className: "links-list"}, 
           links
         )
       )

@@ -2,17 +2,17 @@ body {
   padding-bottom: 1em;
 }
 
-ul.unstyled {
-  list-style: none;
-  padding-left: 0;
-}
-
 .domains-table .action-column {
   width: 5em;
 }
 
 .links-header {
   white-space: nowrap;
+}
+
+.links-list {
+  list-style: none;
+  padding-left: 0;
 }
 
 .links-list li {

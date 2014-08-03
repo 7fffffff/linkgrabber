@@ -112,7 +112,7 @@ var LinkList = React.createClass({
           </label>
         </div>
 
-        <ul className="unstyled links-list">
+        <ul className="links-list">
           {links}
         </ul>
       </div>
