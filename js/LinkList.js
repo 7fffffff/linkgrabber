@@ -79,6 +79,9 @@ var LinkList = React.createClass({displayName: 'LinkList',
     }
     var links = this.state.links;
     var total = links.length;
+    if (total == 0) {
+      return null;
+    }
     if (this.state.options.dedup) {
       links = dedup(links);
     }
@@ -94,11 +97,11 @@ var LinkList = React.createClass({displayName: 'LinkList',
     return (
       React.DOM.div({className: "container-fluid"}, 
         React.DOM.h1({className: "links-header"}, this.state.source), 
-        React.DOM.ul({className: "unstyled links-list"}, 
-          links 
-        ), 
         React.DOM.div(null, 
-          filtered, " link(s) not shown"
+          links.length, " links of out ", total, " shown"
+        ), 
+        React.DOM.ul({className: "unstyled links-list"}, 
+          links
         )
       )
     );
