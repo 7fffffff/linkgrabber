@@ -6,10 +6,14 @@ var Options = React.createClass({displayName: 'Options',
     if (val === "") {
       return;
     }
-    this.state.blockedDomains.push(val);
-    chrome.storage.sync.set({blockedDomains: this.state.blockedDomains});
-    this.state.newBlockedDomain = "";
+    var blockedDomains = this.state.blockedDomains.slice(0);
+    blockedDomains.push(val);
     this.setState(this.state);
+    this.setState({
+      newBlockedDomain: "",
+      blockedDomains: blockedDomains
+    });
+    chrome.storage.sync.set({blockedDomains: blockedDomains});
     return false;
   },
   componentDidMount: function () {
@@ -27,13 +31,17 @@ var Options = React.createClass({displayName: 'Options',
     };
   },
   handleNewBlockDomainChange: function (event) {
-    this.state.newBlockedDomain = event.target.value;
-    this.setState(this.state);
+    this.setState({
+      newBlockedDomain: event.target.value
+    });
   },
   removeDomain: function (index) {
-    this.state.blockedDomains.splice(index, 1)
-    chrome.storage.sync.set({blockedDomains: this.state.blockedDomains});
-    this.setState(this.state);
+    var blockedDomains = this.state.blockedDomains.slice(0);
+    blockedDomains.splice(index, 1);
+    this.setState({
+      blockedDomains: blockedDomains
+    });
+    chrome.storage.sync.set({blockedDomains: blockedDomains});
   },
   render: function () {
     var blockedDomains = this.state.blockedDomains.map(function (domain, index) {

@@ -75,8 +75,9 @@ var LinkList = React.createClass({
     };  
   },
   toggleDedup: function () {
-    this.state.dedup = !this.state.dedup;
-    this.setState(this.state);
+    this.setState({
+      dedup: !this.state.dedup
+    });
   },
   render: function () {
     if (this.state.expired) {
