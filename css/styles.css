@@ -10,6 +10,10 @@ body {
   white-space: nowrap;
 }
 
+.links-options label + label {
+  margin-left: 1em;
+}
+
 .links-list {
   list-style: none;
   padding-left: 0;

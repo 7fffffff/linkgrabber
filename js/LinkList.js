@@ -42,6 +42,26 @@ function blockDomains(links, blockedDomains) {
   }, []);
 }
 
+function groupByDomain(links) {
+  return links.sort(function (a, b) {
+    var ahr = a.hostname.split(".").reverse().join(".");
+    var bhr = b.hostname.split(".").reverse().join(".");
+    if (ahr < bhr) {
+      return -1;
+    }
+    if (ahr > bhr) {
+      return 1;
+    }
+    if (a.path < b.path) {
+      return -1;
+    }
+    if (a.path > b.path) {
+      return 1;
+    }
+    return 0;
+  });
+}
+
 var LinkList = React.createClass({displayName: 'LinkList',
   componentDidMount: function () {
     var self = this;
@@ -71,12 +91,18 @@ var LinkList = React.createClass({displayName: 'LinkList',
       links: [],
       source: null,
       expired: false,
-      dedup: true
+      dedup: true,
+      groupByDomain: false
     };  
   },
   toggleDedup: function () {
     this.setState({
       dedup: !this.state.dedup
+    });
+  },
+  toggleGroupByDomain: function () {
+    this.setState({
+      groupByDomain: !this.state.groupByDomain
     });
   },
   render: function () {
@@ -90,6 +116,9 @@ var LinkList = React.createClass({displayName: 'LinkList',
     }
     if (this.state.dedup) {
       links = dedup(links);
+    }
+    if (this.state.groupByDomain) {
+      links = groupByDomain(links); 
     }
     links = links.map(function (link, index) {
       return (
@@ -106,9 +135,12 @@ var LinkList = React.createClass({displayName: 'LinkList',
           links.length, " links of out ", total, " shown"
         ), 
         
-        React.createElement("div", {className: "checkbox"}, 
+        React.createElement("div", {className: "links-options checkbox"}, 
           React.createElement("label", null, 
             React.createElement("input", {type: "checkbox", checked: this.state.dedup, onChange: this.toggleDedup}), " Hide duplicate links"
+          ), 
+          React.createElement("label", null, 
+            React.createElement("input", {type: "checkbox", checked: this.state.groupByDomain, onChange: this.toggleGroupByDomain}), " Group by domain"
           )
         ), 
 
