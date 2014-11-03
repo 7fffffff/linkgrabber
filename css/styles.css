@@ -8,6 +8,8 @@ body {
 
 .links-header {
   white-space: nowrap;
+  line-height: normal;
+  overflow-x: hidden;
 }
 
 .links-options label + label {
