@@ -93,26 +93,26 @@ var LinkList = React.createClass({displayName: 'LinkList',
     }
     links = links.map(function (link, index) {
       return (
-        React.DOM.li({key: index}, 
-          React.DOM.a({href: link.href}, link.href)
+        React.createElement("li", {key: index}, 
+          React.createElement("a", {href: link.href}, link.href)
         )
       );
     });
     return (
-      React.DOM.div({className: "container-fluid"}, 
-        React.DOM.h1({className: "links-header"}, this.state.source), 
+      React.createElement("div", {className: "container-fluid"}, 
+        React.createElement("h1", {className: "links-header"}, this.state.source), 
 
-        React.DOM.div({className: "status"}, 
+        React.createElement("div", {className: "status"}, 
           links.length, " links of out ", total, " shown"
         ), 
         
-        React.DOM.div({className: "checkbox"}, 
-          React.DOM.label(null, 
-            React.DOM.input({type: "checkbox", checked: this.state.dedup, onChange: this.toggleDedup}), " Hide duplicate links"
+        React.createElement("div", {className: "checkbox"}, 
+          React.createElement("label", null, 
+            React.createElement("input", {type: "checkbox", checked: this.state.dedup, onChange: this.toggleDedup}), " Hide duplicate links"
           )
         ), 
 
-        React.DOM.ul({className: "links-list"}, 
+        React.createElement("ul", {className: "links-list"}, 
           links
         )
       )
@@ -120,4 +120,4 @@ var LinkList = React.createClass({displayName: 'LinkList',
   }
 });
 
-React.renderComponent(LinkList(null), document.getElementById("LinkList"))
+React.render(React.createElement(LinkList, null), document.getElementById("LinkList"))

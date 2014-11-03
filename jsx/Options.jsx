@@ -99,4 +99,4 @@ var Options = React.createClass({
   }
 });
 
-React.renderComponent(<Options />, document.getElementById("Options"));
+React.render(<Options />, document.getElementById("Options"));

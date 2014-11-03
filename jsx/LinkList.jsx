@@ -120,4 +120,4 @@ var LinkList = React.createClass({
   }
 });
 
-React.renderComponent(<LinkList />, document.getElementById("LinkList"))
+React.render(<LinkList />, document.getElementById("LinkList"))

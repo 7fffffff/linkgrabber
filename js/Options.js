@@ -46,12 +46,12 @@ var Options = React.createClass({displayName: 'Options',
   render: function () {
     var blockedDomains = this.state.blockedDomains.map(function (domain, index) {
       return (
-        React.DOM.tr({key: domain}, 
-          React.DOM.td({className: "txtM"}, 
+        React.createElement("tr", {key: domain}, 
+          React.createElement("td", {className: "txtM"}, 
             domain
           ), 
-          React.DOM.td({className: "action-column"}, 
-            React.DOM.button({className: "btn btn-block btn-danger", onClick: this.removeDomain.bind(this, index)}, 
+          React.createElement("td", {className: "action-column"}, 
+            React.createElement("button", {className: "btn btn-block btn-danger", onClick: this.removeDomain.bind(this, index)}, 
               "remove"
             )
           )
@@ -59,33 +59,33 @@ var Options = React.createClass({displayName: 'Options',
       );
     }, this);
     return (
-      React.DOM.div({className: "container-fluid"}, 
-        React.DOM.h1(null, "Link Grabber Options"), 
-        React.DOM.div({className: "row"}, 
-          React.DOM.div({className: "col-sm-6"}, 
-            React.DOM.h2(null, "Blocked Domains"), 
-            React.DOM.p(null, "Links from blocked domains will not be shown."), 
-            React.DOM.table({className: "table table-striped domains-table"}, 
-              React.DOM.thead(null, 
-                React.DOM.tr(null, 
-                  React.DOM.th(null, "domain"), 
-                  React.DOM.th(null)
+      React.createElement("div", {className: "container-fluid"}, 
+        React.createElement("h1", null, "Link Grabber Options"), 
+        React.createElement("div", {className: "row"}, 
+          React.createElement("div", {className: "col-sm-6"}, 
+            React.createElement("h2", null, "Blocked Domains"), 
+            React.createElement("p", null, "Links from blocked domains will not be shown."), 
+            React.createElement("table", {className: "table table-striped domains-table"}, 
+              React.createElement("thead", null, 
+                React.createElement("tr", null, 
+                  React.createElement("th", null, "domain"), 
+                  React.createElement("th", null)
                 )
               ), 
-              React.DOM.tbody(null, 
+              React.createElement("tbody", null, 
                 blockedDomains, 
-                React.DOM.tr(null, 
-                  React.DOM.td(null, 
-                    React.DOM.form({onSubmit: this.blockDomain}, 
-                      React.DOM.input({
+                React.createElement("tr", null, 
+                  React.createElement("td", null, 
+                    React.createElement("form", {onSubmit: this.blockDomain}, 
+                      React.createElement("input", {
                         type: "text", 
                         className: "form-control", 
                         value: this.state.newBlockedDomain, 
                         onChange: this.handleNewBlockDomainChange})
                     )
                   ), 
-                  React.DOM.td({className: "action-column"}, 
-                    React.DOM.button({className: "btn btn-block btn-primary", onClick: this.blockDomain}, 
+                  React.createElement("td", {className: "action-column"}, 
+                    React.createElement("button", {className: "btn btn-block btn-primary", onClick: this.blockDomain}, 
                       "add"
                     )
                   )
@@ -99,4 +99,4 @@ var Options = React.createClass({displayName: 'Options',
   }
 });
 
-React.renderComponent(Options(null), document.getElementById("Options"));
+React.render(React.createElement(Options, null), document.getElementById("Options"));
