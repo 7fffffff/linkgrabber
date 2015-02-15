@@ -1,3 +1,4 @@
+
 function dedup (links) {
   var uniq = {};
   var result = [];
@@ -41,7 +42,7 @@ function blockDomains(links, blockedDomains) {
 }
 
 function groupByDomain(links) {
-  return links.sort(function (a, b) {
+  links.sort(function (a, b) {
     var ahr = a.hostname.split(".").reverse().join(".");
     var bhr = b.hostname.split(".").reverse().join(".");
     if (ahr < bhr) {
@@ -50,14 +51,27 @@ function groupByDomain(links) {
     if (ahr > bhr) {
       return 1;
     }
-    if (a.path < b.path) {
+    if (a.pathname < b.pathname) {
       return -1;
     }
-    if (a.path > b.path) {
+    if (a.pathname > b.pathname) {
+      return 1;
+    }
+    if (a.search < b.search) {
+      return -1;
+    }
+    if (a.search > b.search) {
+      return 1;
+    }
+    if (a.hash < b.hash) {
+      return -1;
+    }
+    if (a.hash > b.hash) {
       return 1;
     }
     return 0;
   });
+  return links;
 }
 
 var LinkList = React.createClass({displayName: 'LinkList',
