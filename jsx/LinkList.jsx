@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 function dedup (links) {
   var uniq = {};
   var result = [];

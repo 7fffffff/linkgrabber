@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var Options = React.createClass({displayName: 'Options',
   blockDomain: function (event) {
     var val = this.state.newBlockedDomain.toLowerCase().trim();
