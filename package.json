@@ -5,9 +5,5 @@
   "devDependencies": {
     "jsx-loader": "^0.12.2",
     "webpack": "^1.6.0"
-  },
-  "scripts": {
-    "build": "rm -rf js && NODE_ENV=production $(npm bin)/webpack -p",
-    "watch": "$(npm bin)/webpack -d -w"
   }
 }
