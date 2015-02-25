@@ -22,9 +22,6 @@ module.exports = {
       { test: /\.jsx?$/, loader: 'jsx-loader?harmony' }
     ]
   },
-  externals: {
-    "react": "React"
-  },
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
