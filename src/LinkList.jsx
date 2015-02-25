@@ -1,3 +1,4 @@
+var React = require("react");
 
 function dedup (links) {
   var uniq = {};
@@ -74,7 +75,7 @@ function groupByDomain(links) {
   return links;
 }
 
-var LinkList = React.createClass({displayName: 'LinkList',
+var LinkList = React.createClass({
   componentDidMount: function () {
     var self = this;
     chrome.tabs.query({active: true, windowId: chrome.windows.WINDOW_ID_CURRENT}, function(tabs) {
@@ -134,34 +135,34 @@ var LinkList = React.createClass({displayName: 'LinkList',
     }
     links = links.map(function (link, index) {
       return (
-        React.createElement("li", {key: index}, 
-          React.createElement("a", {href: link.href}, link.href)
-        )
+        <li key={index}>
+          <a href={link.href}>{link.href}</a>
+        </li>
       );
     });
     return (
-      React.createElement("div", {className: "container-fluid"}, 
-        React.createElement("h1", {className: "links-header"}, this.state.source), 
+      <div className="container-fluid">
+        <h1 className="links-header">{this.state.source}</h1>
 
-        React.createElement("div", {className: "status"}, 
-          links.length, " links of out ", total, " shown"
-        ), 
+        <div className="status">
+          {links.length} links of out {total} shown
+        </div>
         
-        React.createElement("div", {className: "links-options checkbox"}, 
-          React.createElement("label", null, 
-            React.createElement("input", {type: "checkbox", checked: this.state.dedup, onChange: this.toggleDedup}), " Hide duplicate links"
-          ), 
-          React.createElement("label", null, 
-            React.createElement("input", {type: "checkbox", checked: this.state.groupByDomain, onChange: this.toggleGroupByDomain}), " Group by domain"
-          )
-        ), 
+        <div className="links-options checkbox">
+          <label>
+            <input type="checkbox" checked={this.state.dedup} onChange={this.toggleDedup} /> Hide duplicate links
+          </label>
+          <label>
+            <input type="checkbox" checked={this.state.groupByDomain} onChange={this.toggleGroupByDomain} /> Group by domain
+          </label>
+        </div>
 
-        React.createElement("ul", {className: "links-list"}, 
-          links
-        )
-      )
+        <ul className="links-list">
+          {links}
+        </ul>
+      </div>
     );
   }
 });
 
-React.render(React.createElement(LinkList, null), document.getElementById("LinkList"))
+React.render(<LinkList />, document.getElementById("LinkList"))

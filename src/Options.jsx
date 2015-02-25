@@ -1,3 +1,5 @@
+var React = require("react");
+
 var Options = React.createClass({
   blockDomain: function (event) {
     var val = this.state.newBlockedDomain.toLowerCase().trim();

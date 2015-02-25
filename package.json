@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "jsx-loader": "^0.12.2",
+    "webpack": "^1.6.0"
+  },
+  "scripts": {
+  	"build": "$(npm bin)/webpack",
+  	"watch": "$(npm bin)/webpack -w"
+  }
+}

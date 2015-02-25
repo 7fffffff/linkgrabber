@@ -5,6 +5,7 @@ var DEFAULT_SETTINGS = {
 };
 
 var tabData = {};
+window.tabData = tabData;
 
 chrome.runtime.onInstalled.addListener(function() {
   chrome.storage.sync.get(DEFAULT_SETTINGS, function(options) {
