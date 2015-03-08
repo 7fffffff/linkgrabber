@@ -1,34 +1,21 @@
 var React = require("react");
 
 var Options = React.createClass({
+  getInitialState: function () {
+    return {
+      newBlockedDomain: ""
+    };
+  },
   blockDomain: function (event) {
+    event.preventDefault();
     var val = this.state.newBlockedDomain.toLowerCase().trim();
     if (val === "") {
       return;
     }
-    var blockedDomains = this.state.blockedDomains.slice(0);
+    var blockedDomains = this.props.blockedDomains.slice(0);
     blockedDomains.push(val);
-    this.setState(this.state);
-    this.setState({
-      newBlockedDomain: "",
-      blockedDomains: blockedDomains
-    });
-    chrome.storage.sync.set({blockedDomains: blockedDomains});
-    return false;
-  },
-  componentDidMount: function () {
-    var self = this;
-    chrome.storage.sync.get(null, function(options) {
-      self.setState({
-        blockedDomains: options.blockedDomains || []
-      })
-    });
-  },
-  getInitialState: function () {
-    return {
-      blockedDomains: [],
-      newBlockedDomain: ""
-    };
+    this.setState({newBlockedDomain: ""});
+    this.props.setBlockedDomains(blockedDomains);
   },
   handleNewBlockDomainChange: function (event) {
     this.setState({
@@ -36,15 +23,12 @@ var Options = React.createClass({
     });
   },
   removeDomain: function (index) {
-    var blockedDomains = this.state.blockedDomains.slice(0);
+    var blockedDomains = this.props.blockedDomains.slice(0);
     blockedDomains.splice(index, 1);
-    this.setState({
-      blockedDomains: blockedDomains
-    });
-    chrome.storage.sync.set({blockedDomains: blockedDomains});
+    this.props.setBlockedDomains(blockedDomains);
   },
   render: function () {
-    var blockedDomains = this.state.blockedDomains.map(function (domain, index) {
+    var blockedDomains = this.props.blockedDomains.map(function (domain, index) {
       return (
         <tr key={domain}>
           <td className="txtM">
