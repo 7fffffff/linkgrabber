@@ -10,8 +10,8 @@ module.exports = {
   entry: {
     background: './src/background.js',
     contentscript: './src/contentscript.js',
-    LinkList: './src/LinkList.jsx',
-    Options: './src/Options.jsx'
+    links: './src/links.js',
+    options: './src/options.js'
   },
   output: {
     path: './js/',

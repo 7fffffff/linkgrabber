@@ -165,4 +165,4 @@ var LinkList = React.createClass({
   }
 });
 
-React.render(<LinkList />, document.getElementById("LinkList"))
+module.exports = LinkList;
