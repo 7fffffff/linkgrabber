@@ -2,48 +2,18 @@ var React = require("react");
 
 function dedup (links) {
   var uniq = {};
-  var result = [];
-  links.forEach(function (link) {
+  return links.reduce(function (memo, link) {
     if (!uniq[link.href]) {
-      result.push(link);
+      memo.push(link);
       uniq[link.href] = true;
     }
-  });
-  return result;
-}
-
-function domainPattern(domains) {
-  // ["foo.com", "bar.com"]
-  // /^(?:[\w-]+\.)*(?:foo\.com|bar\.com)+$/i
-
-  if (!domains || domains.length <= 0) {
-    return new RegExp("(?!x)x"); // a regex that matches nothing
-  }
-
-  for (var i = 0; i < domains.length; i++) {
-    domains[i] = domains[i].replace(/\./g, "\\.");
-  }
-
-  var s = "^(?:[\\w-]+\\.)*(?:" + domains.join("|") + ")+$";
-
-  return new RegExp(s, "i");
-}
-
-function blockDomains(links, blockedDomains) {
-  if (!blockedDomains || blockedDomains.length == 0) {
-    return links;
-  }
-  var blockPattern = domainPattern(blockedDomains);
-  return links.reduce(function(acc, link) {
-    if (!blockPattern.exec(link.hostname)) {
-      acc.push(link)
-    }
-    return acc;
+    return memo;
   }, []);
 }
 
 function groupByDomain(links) {
-  links.sort(function (a, b) {
+  links = links.slice();
+  return links.sort(function (a, b) {
     var ahr = a.hostname.split(".").reverse().join(".");
     var bhr = b.hostname.split(".").reverse().join(".");
     if (ahr < bhr) {
@@ -72,39 +42,12 @@ function groupByDomain(links) {
     }
     return 0;
   });
-  return links;
 }
 
 var LinkList = React.createClass({
-  componentDidMount: function () {
-    var self = this;
-    chrome.tabs.query({active: true, windowId: chrome.windows.WINDOW_ID_CURRENT}, function(tabs) {
-      chrome.storage.sync.get(null, function (options) {
-        chrome.runtime.getBackgroundPage(function (page) {
-          var data = page.tabData[tabs[0].id];
-          if (data) {
-            self.setState({
-              links: blockDomains(data.links, options.blockedDomains),
-              source: data.source,
-              expired: false,
-              dedup: options.dedup
-            });
-            document.title = "Extracted Links for " + self.state.source;
-          } else {
-            self.setState({
-              expired: true
-            })
-          }
-        });
-      });
-    });
-  },
   getInitialState: function () {
     return {
-      links: [],
-      source: null,
-      expired: false,
-      dedup: true,
+      dedup: this.props.dedup,
       groupByDomain: false
     };  
   },
@@ -119,10 +62,18 @@ var LinkList = React.createClass({
     });
   },
   render: function () {
-    if (this.state.expired) {
-      return null;
+    if (this.props.expired) {
+      return (
+        <div className="container-fluid">
+          <h1>Expired</h1>
+          <p>
+            Link information has expired and is no longer available.
+            Please close this tab and try again.
+          </p>
+        </div>
+      );
     }
-    var links = this.state.links;
+    var links = this.props.links.slice();
     var total = links.length;
     if (total == 0) {
       return null;
@@ -142,7 +93,7 @@ var LinkList = React.createClass({
     });
     return (
       <div className="container-fluid">
-        <h1 className="links-header">{this.state.source}</h1>
+        <h1 className="links-header">{this.props.source}</h1>
 
         <div className="status">
           {links.length} links of out {total} shown
