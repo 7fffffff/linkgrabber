@@ -1,7 +1,8 @@
+var chrome = require('chrome');
 var rejectPattern = /^javascript:|mailto:/;
 var hasLinks = false;
 
-for (var i = 0; i < document.links.length; i++) {
+for (let i = 0; i < document.links.length; i++) {
   if (!rejectPattern.exec(document.links[i].href)) {
     hasLinks = true;
     break;
@@ -9,17 +10,17 @@ for (var i = 0; i < document.links.length; i++) {
 }
 
 if (hasLinks) {
-  chrome.extension.sendMessage(null, "showAction");
+  chrome.extension.sendMessage(null, 'showAction');
 
   chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
-    if (message !== "getLinks") {
+    if (message !== 'getLinks') {
       return;
     }
 
     var links = new Array(document.links.length);
     links.length = 0;
 
-    for (var i = 0; i < document.links.length; i++) {
+    for (let i = 0; i < document.links.length; i++) {
       if (!rejectPattern.exec(document.links[i].href)) {
         links.push({
           hash: document.links[i].hash,

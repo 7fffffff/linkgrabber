@@ -1,20 +1,20 @@
-var React = require("react");
+var React = require('react');
 
 var Options = React.createClass({
   getInitialState: function () {
     return {
-      newBlockedDomain: ""
+      newBlockedDomain: ''
     };
   },
   blockDomain: function (event) {
     event.preventDefault();
     var val = this.state.newBlockedDomain.toLowerCase().trim();
-    if (val === "") {
+    if (val === '') {
       return;
     }
     var blockedDomains = this.props.blockedDomains.slice(0);
     blockedDomains.push(val);
-    this.setState({newBlockedDomain: ""});
+    this.setState({newBlockedDomain: ''});
     this.props.setBlockedDomains(blockedDomains);
   },
   handleNewBlockDomainChange: function (event) {

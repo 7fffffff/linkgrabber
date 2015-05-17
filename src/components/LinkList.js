@@ -1,4 +1,4 @@
-var React = require("react");
+var React = require('react');
 
 function dedup (links) {
   var uniq = {};
@@ -14,8 +14,8 @@ function dedup (links) {
 function groupByDomain(links) {
   links = links.slice();
   return links.sort(function (a, b) {
-    var ahr = a.hostname.split(".").reverse().join(".");
-    var bhr = b.hostname.split(".").reverse().join(".");
+    var ahr = a.hostname.split('.').reverse().join('.');
+    var bhr = b.hostname.split('.').reverse().join('.');
     if (ahr < bhr) {
       return -1;
     }
@@ -49,7 +49,7 @@ var LinkList = React.createClass({
     return {
       dedup: this.props.dedup,
       groupByDomain: false
-    };  
+    };
   },
   toggleDedup: function () {
     this.setState({
@@ -75,14 +75,14 @@ var LinkList = React.createClass({
     }
     var links = this.props.links.slice();
     var total = links.length;
-    if (total == 0) {
+    if (total === 0) {
       return null;
     }
     if (this.state.dedup) {
       links = dedup(links);
     }
     if (this.state.groupByDomain) {
-      links = groupByDomain(links); 
+      links = groupByDomain(links);
     }
     links = links.map(function (link, index) {
       return (
@@ -98,7 +98,7 @@ var LinkList = React.createClass({
         <div className="status">
           {links.length} links of out {total} shown
         </div>
-        
+
         <div className="links-options checkbox">
           <label>
             <input type="checkbox" checked={this.state.dedup} onChange={this.toggleDedup} /> Hide duplicate links

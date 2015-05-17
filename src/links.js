@@ -1,33 +1,34 @@
-var React = require("react");
-var LinkList = require("./components/LinkList");
+var chrome = require('chrome');
+var React = require('react');
+var LinkList = require('./components/LinkList');
 
-var target = document.getElementById("LinkList");
+var target = document.getElementById('LinkList');
 
 function domainPattern(domains) {
-  // ["foo.com", "bar.com"]
+  // ['foo.com', 'bar.com']
   // /^(?:[\w-]+\.)*(?:foo\.com|bar\.com)+$/i
 
   if (!domains || domains.length <= 0) {
-    return new RegExp("(?!x)x"); // a regex that matches nothing
+    return new RegExp('(?!x)x'); // a regex that matches nothing
   }
 
   for (var i = 0; i < domains.length; i++) {
-    domains[i] = domains[i].replace(/\./g, "\\.");
+    domains[i] = domains[i].replace(/\./g, '\\.');
   }
 
-  var s = "^(?:[\\w-]+\\.)*(?:" + domains.join("|") + ")+$";
+  var s = '^(?:[\\w-]+\\.)*(?:' + domains.join('|') + ')+$';
 
-  return new RegExp(s, "i");
+  return new RegExp(s, 'i');
 }
 
 function blockDomains(links, blockedDomains) {
-  if (!blockedDomains || blockedDomains.length == 0) {
+  if (!blockedDomains || blockedDomains.length === 0) {
     return links;
   }
   var blockPattern = domainPattern(blockedDomains);
   return links.reduce(function(acc, link) {
     if (!blockPattern.exec(link.hostname)) {
-      acc.push(link)
+      acc.push(link);
     }
     return acc;
   }, []);
@@ -38,7 +39,7 @@ chrome.tabs.query({active: true, windowId: chrome.windows.WINDOW_ID_CURRENT}, fu
     chrome.runtime.getBackgroundPage(function (page) {
       var data = page.tabData[tabs[0].id];
       if (data) {
-        document.title = "Extracted Links for " + data.source;
+        document.title = 'Extracted Links for ' + data.source;
         var links = blockDomains(data.links, options.blockedDomains);
         var component = (
           <LinkList
