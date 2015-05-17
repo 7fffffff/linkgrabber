@@ -1,10 +1,7 @@
 var webpack = require('webpack');
-var plugins = [];
-if (process.env.NODE_ENV === "production") {
-  plugins.push(new webpack.DefinePlugin({
-    'process.env.NODE_ENV': '"production"'
-  }));
-}
+var plugins = [
+  new webpack.EnvironmentPlugin('NODE_ENV')
+];
 
 module.exports = {
   entry: {
@@ -19,11 +16,14 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.jsx?$/, loader: 'jsx-loader?harmony' }
+      { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ }
     ]
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
+  },
+  externals: {
+    'chrome': 'chrome'
   },
   plugins: plugins
 };

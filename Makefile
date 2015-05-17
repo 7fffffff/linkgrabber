@@ -1,5 +1,5 @@
 watch: clean
-	`npm bin`/webpack -w
+	NODE_ENV=development `npm bin`/webpack -w
 
 package: build
 	mkdir -p dist
@@ -8,6 +8,9 @@ package: build
 
 build: clean
 	NODE_ENV=production `npm bin`/webpack -p
+
+lint:
+	node_modules/.bin/eslint src
 
 clean:
 	rm -rf js
