@@ -1,5 +1,6 @@
 var chrome = require('chrome');
 var React = require('react');
+var ReactDOM = require('react-dom');
 var LinkList = require('./components/LinkList');
 
 var target = document.getElementById('LinkList');
@@ -48,9 +49,9 @@ chrome.tabs.query({active: true, windowId: chrome.windows.WINDOW_ID_CURRENT}, fu
             dedup={options.dedup}
             expired={false} />
         );
-        React.render(component, target);
+        ReactDOM.render(component, target);
       } else {
-        React.render(<LinkList expired={true} />, target);
+        ReactDOM.render(<LinkList expired={true} />, target);
       }
     });
   });

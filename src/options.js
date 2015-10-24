@@ -1,5 +1,6 @@
 var chrome = require('chrome');
 var React = require('react');
+var ReactDOM = require('react-dom');
 var Options = require('./components/Options');
 
 function setBlockedDomains (domains) {
@@ -10,7 +11,7 @@ function render(storage) {
   var component = (
     <Options blockedDomains={storage.blockedDomains} setBlockedDomains={setBlockedDomains} />
   );
-  React.render(component, document.getElementById('Options'));
+  ReactDOM.render(component, document.getElementById('Options'));
 }
 
 var stored = {};
