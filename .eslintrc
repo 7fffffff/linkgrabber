@@ -7,12 +7,19 @@
     "browser": true,
     "node": true
   },
+  "extends": "eslint:recommended",
   "rules": {
+    "jsx-quotes": [2, "prefer-double"],
+    "react/display-name": [2, {"acceptTranspilerName": true}],
+    "react/sort-comp": 2,
+    "react/jsx-curly-spacing": [2, "never"],
+    "react/jsx-no-duplicate-props": 2,
+    "react/jsx-no-undef": 2,
+    "react/no-unknown-property": 2,
+    "react/wrap-multilines": 2,
+    "semi": [2, "always"],
     "strict": [2, "global"],
     "quotes": [2, "single"],
-    "eol-last": [0],
-    "no-mixed-requires": [0],
-    "no-underscore-dangle": [0],
     "no-unused-vars": [2, {"args": "none"}]
   },
   "ecmaFeatures": {
