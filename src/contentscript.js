@@ -1,6 +1,6 @@
-var chrome = require('chrome');
-var rejectPattern = /^javascript:|mailto:/;
-var hasLinks = false;
+import chrome from 'chrome';
+const rejectPattern = /^javascript:|mailto:/;
+let hasLinks = false;
 
 for (let i = 0; i < document.links.length; i++) {
   if (!rejectPattern.exec(document.links[i].href)) {
@@ -17,7 +17,7 @@ if (hasLinks) {
       return;
     }
 
-    var links = new Array(document.links.length);
+    const links = new Array(document.links.length);
     links.length = 0;
 
     for (let i = 0; i < document.links.length; i++) {

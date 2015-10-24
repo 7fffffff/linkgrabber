@@ -1,25 +1,25 @@
-var chrome = require('chrome');
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Options = require('./components/Options');
+import chrome from 'chrome';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Options from './components/Options';
 
 function setBlockedDomains (domains) {
   chrome.storage.sync.set({blockedDomains: domains});
 }
 
 function render(storage) {
-  var component = (
-    <Options blockedDomains={storage.blockedDomains} setBlockedDomains={setBlockedDomains} />
-  );
-  ReactDOM.render(component, document.getElementById('Options'));
+  ReactDOM.render(
+    <Options
+      blockedDomains={storage.blockedDomains}
+      setBlockedDomains={setBlockedDomains} />
+    , document.getElementById('Options'));
 }
 
-var stored = {};
+let stored = {};
 
 chrome.storage.onChanged.addListener(function (changes, areaName) {
-  for (var key in changes) {
-    var storageChange = changes[key];
-    stored[key] = storageChange.newValue;
+  for (let key in changes) {
+    stored[key] = changes[key].newValue;
   }
   render(stored);
 });

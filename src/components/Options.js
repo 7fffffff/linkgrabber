@@ -1,6 +1,6 @@
-var React = require('react');
+import React from 'react';
 
-var Options = React.createClass({
+const Options = React.createClass({
   getInitialState: function () {
     return {
       newBlockedDomain: ''
@@ -8,11 +8,11 @@ var Options = React.createClass({
   },
   blockDomain: function (event) {
     event.preventDefault();
-    var val = this.state.newBlockedDomain.toLowerCase().trim();
+    const val = this.state.newBlockedDomain.toLowerCase().trim();
     if (val === '') {
       return;
     }
-    var blockedDomains = this.props.blockedDomains.slice(0);
+    const blockedDomains = this.props.blockedDomains.slice(0);
     blockedDomains.push(val);
     this.setState({newBlockedDomain: ''});
     this.props.setBlockedDomains(blockedDomains);
@@ -23,12 +23,12 @@ var Options = React.createClass({
     });
   },
   removeDomain: function (index) {
-    var blockedDomains = this.props.blockedDomains.slice(0);
+    const blockedDomains = this.props.blockedDomains.slice(0);
     blockedDomains.splice(index, 1);
     this.props.setBlockedDomains(blockedDomains);
   },
   render: function () {
-    var blockedDomains = this.props.blockedDomains.map(function (domain, index) {
+    const blockedDomains = this.props.blockedDomains.map(function (domain, index) {
       return (
         <tr key={domain}>
           <td className="txtM">
@@ -83,4 +83,4 @@ var Options = React.createClass({
   }
 });
 
-module.exports = Options;
+export default Options;

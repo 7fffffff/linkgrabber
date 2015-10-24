@@ -1,9 +1,9 @@
-var chrome = require('chrome');
-var React = require('react');
-var ReactDOM = require('react-dom');
-var LinkList = require('./components/LinkList');
+import chrome from 'chrome';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import LinkList from './components/LinkList';
 
-var target = document.getElementById('LinkList');
+const target = document.getElementById('LinkList');
 
 function domainPattern(domains) {
   // ['foo.com', 'bar.com']
@@ -13,11 +13,11 @@ function domainPattern(domains) {
     return new RegExp('(?!x)x'); // a regex that matches nothing
   }
 
-  for (var i = 0; i < domains.length; i++) {
+  for (let i = 0; i < domains.length; i++) {
     domains[i] = domains[i].replace(/\./g, '\\.');
   }
 
-  var s = '^(?:[\\w-]+\\.)*(?:' + domains.join('|') + ')+$';
+  const s = '^(?:[\\w-]+\\.)*(?:' + domains.join('|') + ')+$';
 
   return new RegExp(s, 'i');
 }
@@ -26,7 +26,7 @@ function blockDomains(links, blockedDomains) {
   if (!blockedDomains || blockedDomains.length === 0) {
     return links;
   }
-  var blockPattern = domainPattern(blockedDomains);
+  const blockPattern = domainPattern(blockedDomains);
   return links.reduce(function(acc, link) {
     if (!blockPattern.exec(link.hostname)) {
       acc.push(link);
@@ -41,15 +41,14 @@ chrome.tabs.query({active: true, windowId: chrome.windows.WINDOW_ID_CURRENT}, fu
       var data = page.tabData[tabs[0].id];
       if (data) {
         document.title = 'Extracted Links for ' + data.source;
-        var links = blockDomains(data.links, options.blockedDomains);
-        var component = (
+        const links = blockDomains(data.links, options.blockedDomains);
+        ReactDOM.render(
           <LinkList
             links={links}
             source={data.source}
             dedup={options.dedup}
             expired={false} />
-        );
-        ReactDOM.render(component, target);
+        , target);
       } else {
         ReactDOM.render(<LinkList expired={true} />, target);
       }

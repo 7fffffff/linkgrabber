@@ -1,7 +1,7 @@
-var React = require('react');
+import React from 'react';
 
 function dedup (links) {
-  var uniq = {};
+  const uniq = {};
   return links.reduce(function (memo, link) {
     if (!uniq[link.href]) {
       memo.push(link);
@@ -14,8 +14,8 @@ function dedup (links) {
 function groupByDomain(links) {
   links = links.slice();
   return links.sort(function (a, b) {
-    var ahr = a.hostname.split('.').reverse().join('.');
-    var bhr = b.hostname.split('.').reverse().join('.');
+    const ahr = a.hostname.split('.').reverse().join('.');
+    const bhr = b.hostname.split('.').reverse().join('.');
     if (ahr < bhr) {
       return -1;
     }
@@ -44,7 +44,7 @@ function groupByDomain(links) {
   });
 }
 
-var LinkList = React.createClass({
+const LinkList = React.createClass({
   getInitialState: function () {
     return {
       dedup: this.props.dedup,
@@ -73,8 +73,8 @@ var LinkList = React.createClass({
         </div>
       );
     }
-    var links = this.props.links.slice();
-    var total = links.length;
+    let links = this.props.links.slice();
+    const total = links.length;
     if (total === 0) {
       return null;
     }
@@ -116,4 +116,4 @@ var LinkList = React.createClass({
   }
 });
 
-module.exports = LinkList;
+export default LinkList;

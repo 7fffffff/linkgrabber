@@ -1,12 +1,12 @@
-var chrome = require('chrome');
+import chrome from 'chrome';
 
-var DEFAULT_SETTINGS = {
+const DEFAULT_SETTINGS = {
   dedup: true,
   priorityDomains: ['example.com'],
   blockedDomains: ['bad.example.com']
 };
 
-var tabData = {};
+const tabData = {};
 window.tabData = tabData;
 
 chrome.runtime.onInstalled.addListener(function() {
@@ -22,8 +22,8 @@ chrome.extension.onMessage.addListener(function (message, sender, sendResponse) 
 });
 
 chrome.pageAction.onClicked.addListener(function (tab) {
-  var linksPage = chrome.extension.getURL('html/links.html');
-  var opener = tab;
+  const linksPage = chrome.extension.getURL('html/links.html');
+  const opener = tab;
 
   chrome.tabs.sendMessage(opener.id, 'getLinks', function(links) {
     chrome.tabs.create({
