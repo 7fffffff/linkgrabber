@@ -3,7 +3,7 @@
   "manifest_version": 2,
   "version" : "0.2.1",
   "description" : "Extracts hyperlinks from an HTML page",
-  "permissions" : [ "storage" ],
+  "permissions" : [ "contextMenus", "storage" ],
   "incognito": "split",
 
   "options_page": "/html/options.html",
