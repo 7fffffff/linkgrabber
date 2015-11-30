@@ -94,13 +94,27 @@ const LinkList = React.createClass({
       );
       return memo;
     }, []);
+    let status = null;
+    if (items.length === 0) {
+      // do nothing
+    } else if (items.length === 1) {
+      status = (
+        <div className="status">
+          1 link out of {links.length} shown
+        </div>
+      )
+    } else {
+      status = (
+        <div className="status">
+          {items.length} links out of {links.length} shown
+        </div>
+      );
+    }
     return (
       <div className="container-fluid">
         <h1 className="links-header">{this.props.source}</h1>
 
-        <div className="status">
-          {items.length} links out of {links.length} shown
-        </div>
+        {status}
 
         <div className="links-options checkbox">
           <label>
