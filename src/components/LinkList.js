@@ -75,8 +75,13 @@ const LinkList = React.createClass({
     }
     let links = this.props.links.slice();
     const total = links.length;
+    let noLinksFound = null;
     if (total === 0) {
-      return null;
+      noLinksFound = (
+        <p>
+          No links were found.
+        </p>
+      );
     }
     if (this.state.dedup) {
       links = dedup(links);
@@ -111,6 +116,8 @@ const LinkList = React.createClass({
         <ul className="links-list">
           {links}
         </ul>
+
+        {noLinksFound}
       </div>
     );
   }
