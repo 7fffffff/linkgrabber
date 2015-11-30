@@ -99,7 +99,7 @@ const LinkList = React.createClass({
         <h1 className="links-header">{this.props.source}</h1>
 
         <div className="status">
-          {items.length} links of out {links.length} shown
+          {items.length} links out of {links.length} shown
         </div>
 
         <div className="links-options checkbox">
