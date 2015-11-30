@@ -7,7 +7,7 @@ package: build
 	cd dist; zip linkgrabber.zip -x linkgrabber.zip -r .
 
 build: clean
-	NODE_ENV=production `npm bin`/webpack -p
+	NODE_ENV=production `npm bin`/webpack
 
 lint:
 	node_modules/.bin/eslint src
