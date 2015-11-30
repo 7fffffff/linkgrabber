@@ -69,7 +69,7 @@ const LinkList = React.createClass({
         </div>
       );
     }
-    const links = this.state.groupByDomain ? groupByDomain(links) : this.props.links;
+    const links = this.state.groupByDomain ? groupByDomain(this.props.links) : this.props.links;
     let noLinksFound = null;
     if (links.length === 0) {
       noLinksFound = (
