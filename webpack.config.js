@@ -24,7 +24,9 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ }
+      { test: /\.css$/, exclude: /\.useable\.css$/, loader: 'style!css' },
+      { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader' },
+      { test: /\.useable\.css$/, loader: 'style/useable!css' }
     ]
   },
   resolve: {

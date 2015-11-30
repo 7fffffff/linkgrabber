@@ -1,0 +1,29 @@
+.links-header {
+  white-space: nowrap;
+  line-height: normal;
+  overflow-x: hidden;
+}
+
+.links-options label + label {
+  margin-left: 1em;
+}
+
+.links-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.links-list li {
+  border-bottom: 1px solid #ddd;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  word-wrap: break-word;
+}
+
+.links-list li:nth-child(odd) {
+  background-color: #F5F5F5;
+}
+
+.status {
+  float: right;
+}

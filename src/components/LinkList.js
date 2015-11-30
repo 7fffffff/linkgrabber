@@ -1,4 +1,5 @@
 import React from 'react';
+import './LinkList.css';
 
 function dedup (links) {
   const uniq = {};

@@ -1,4 +1,5 @@
 import React from 'react';
+import './Options.css';
 
 const Options = React.createClass({
   getInitialState: function () {
