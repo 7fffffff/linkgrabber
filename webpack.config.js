@@ -1,17 +1,5 @@
 var webpack = require('webpack');
-var plugins = [
-  new webpack.EnvironmentPlugin('NODE_ENV')
-];
-
-if (process.env.NODE_ENV === 'production') {
-  plugins.push(new webpack.optimize.UglifyJsPlugin({
-    beautify: true,
-    compress: true,
-    mangle: false
-  }));
-}
-
-module.exports = {
+var config = {
   entry: {
     background: './src/background.js',
     contentscript: './src/contentscript.js',
@@ -35,5 +23,19 @@ module.exports = {
   externals: {
     'chrome': 'chrome'
   },
-  plugins: plugins
+  plugins: [
+    new webpack.EnvironmentPlugin('NODE_ENV')
+  ]
 };
+
+if (process.env.NODE_ENV === 'production') {
+  config.plugins.push(new webpack.optimize.UglifyJsPlugin({
+    beautify: true,
+    compress: true,
+    mangle: false
+  }));
+} else {
+  config.devtool = 'cheap-module-source-map';
+}
+
+module.exports = config;
