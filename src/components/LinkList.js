@@ -12,36 +12,43 @@ function dedup (links) {
 }
 
 function groupByDomain(links) {
-  links = links.slice();
-  return links.sort(function (a, b) {
-    const ahr = a.hostname.split('.').reverse().join('.');
-    const bhr = b.hostname.split('.').reverse().join('.');
+  let mapped = links.map((link, i) => {
+    return {
+      index: i,
+      link: link,
+      reverseHostname: link.hostname.split('.').reverse().join('.')
+    };
+  });
+  mapped.sort(function (a, b) {
+    const ahr = a.reverseHostname;
+    const bhr = b.reverseHostname;
     if (ahr < bhr) {
       return -1;
     }
     if (ahr > bhr) {
       return 1;
     }
-    if (a.pathname < b.pathname) {
+    if (a.link.pathname < b.link.pathname) {
       return -1;
     }
-    if (a.pathname > b.pathname) {
+    if (a.link.pathname > b.link.pathname) {
       return 1;
     }
-    if (a.search < b.search) {
+    if (a.link.search < b.link.search) {
       return -1;
     }
-    if (a.search > b.search) {
+    if (a.link.search > b.link.search) {
       return 1;
     }
-    if (a.hash < b.hash) {
+    if (a.link.hash < b.link.hash) {
       return -1;
     }
-    if (a.hash > b.hash) {
+    if (a.link.hash > b.link.hash) {
       return 1;
     }
     return 0;
   });
+  return mapped.map(link => links[link.index]);
 }
 
 const LinkList = React.createClass({
