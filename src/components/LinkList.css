@@ -5,14 +5,6 @@
   text-overflow: ellipsis;
 }
 
-.LinkPageOption {
-  -webkit-user-select: none;
-}
-
-.LinkPageOption + .LinkPageOption {
-  margin-left: 1em;
-}
-
 .LinkPageStatus {
   float: right;
 }
@@ -35,4 +27,20 @@
 
 .LinkListItem--duplicate > a {
   color: #aaa;
+}
+
+.LinkPageOptionsForm {
+  margin-bottom: 1em;
+}
+
+.LinkPageOptionsForm > .form-group + .form-group {
+  margin-left: 1em;
+}
+@media (max-width: 767px) {
+  .LinkPageOptionsForm {
+    margin-bottom: 0em;
+  }
+  .LinkPageOptionsForm > .form-group + .form-group {
+    margin-left: 0;
+  }
 }

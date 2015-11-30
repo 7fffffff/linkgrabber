@@ -1,6 +1,17 @@
 import React from 'react';
 import cx from 'classnames';
+import LinkListEmpty from './LinkListEmpty';
+import LinkListExpired from './LinkListExpired';
 import './LinkList.css';
+
+function filterLinks (links, s) {
+  return links.reduce((memo, link) => {
+    if (link.href.indexOf(s) >= 0) {
+      memo.push(link);
+    }
+    return memo;
+  }, []);
+}
 
 function findDuplicates (links) {
   const uniq = {};
@@ -44,8 +55,12 @@ const LinkList = React.createClass({
   getInitialState: function () {
     return {
       dedup: this.props.dedup,
-      groupByDomain: false
+      groupByDomain: false,
+      filter: ''
     };
+  },
+  filterChanged: function (event) {
+    this.setState({filter: event.target.value});
   },
   toggleDedup: function () {
     this.setState({
@@ -59,24 +74,17 @@ const LinkList = React.createClass({
   },
   render: function () {
     if (this.props.expired) {
-      return (
-        <div className="container-fluid">
-          <h1 className="LinkPageHeader">Expired</h1>
-          <p>
-            Link information has expired and is no longer available.
-            Please close this tab and try again.
-          </p>
-        </div>
-      );
+      return (<LinkListExpired />);
     }
-    const links = this.state.groupByDomain ? groupByDomain(this.props.links) : this.props.links;
-    let noLinksFound = null;
-    if (links.length === 0) {
-      noLinksFound = (
-        <p>
-          No links were found.
-        </p>
-      );
+    if (this.props.links.length === 0) {
+      return (<LinkListEmpty source={this.props.source} />);
+    }
+    let links = this.props.links;
+    if (this.state.groupByDomain) {
+      links = groupByDomain(links);
+    }
+    if (this.state.filter) {
+      links = filterLinks(links, this.state.filter);
     }
     const duplicates = findDuplicates(links);
     const items = links.reduce((memo, link, index) => {
@@ -94,38 +102,48 @@ const LinkList = React.createClass({
       return memo;
     }, []);
     let status = null;
-    if (items.length === 0) {
-      // do nothing
-    } else if (items.length === 1) {
+    if (items.length === 1) {
       status = (
-        <div className="LinkPageStatus">
-          1 link out of {links.length} shown
+        <div className="form-group LinkPageStatus">
+          <p className="form-control-static">
+            1 link out of {this.props.links.length} shown
+          </p>
         </div>
       )
     } else {
       status = (
-        <div className="LinkPageStatus">
-          {items.length} links out of {links.length} shown
+        <div className="form-group LinkPageStatus">
+          <p className="form-control-static">
+            {items.length} links out of {this.props.links.length} shown
+          </p>
         </div>
       );
     }
     return (
       <div className="container-fluid">
         <h1 className="LinkPageHeader">{this.props.source}</h1>
-
-        {status}
-
-        <div className="LinkPageOptions checkbox">
-          <label className="LinkPageOption">
-            <input type="checkbox" checked={this.state.dedup} onChange={this.toggleDedup} /> Hide duplicate links
-          </label>
-          <label className="LinkPageOption">
-            <input type="checkbox" checked={this.state.groupByDomain} onChange={this.toggleGroupByDomain} /> Group by domain
-          </label>
+        <div className="clearfix">
+          <div className="form-inline LinkPageOptionsForm">
+            <div className="form-group">
+              <div >
+                <label className="checkbox-inline">
+                  <input type="checkbox" checked={this.state.dedup} onChange={this.toggleDedup} /> Hide duplicate links
+                </label>
+              </div>
+            </div>
+            <div className="form-group">
+              <div>
+                <label className="checkbox-inline">
+                  <input type="checkbox" checked={this.state.groupByDomain} onChange={this.toggleGroupByDomain} /> Group by domain
+                </label>
+              </div>
+            </div>
+            <div className="form-group">
+              <input type="text" className="form-control" placeholder="substring filter" autoFocus value={this.state.filter} onChange={this.filterChanged} />
+            </div>
+            {status}
+          </div>
         </div>
-
-        {noLinksFound}
-
         <ul className="LinkList">
           {items}
         </ul>

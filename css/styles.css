@@ -1,5 +1,6 @@
 body {
   padding-bottom: 1em;
+  overflow-y: scroll;
 }
 
 /* horizontal alignment */
