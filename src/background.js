@@ -6,6 +6,8 @@ const DEFAULT_SETTINGS = {
   blockedDomains: ['bad.example.com']
 };
 
+const LINKS_PAGE = chrome.extension.getURL('html/links.html');
+
 const tabData = {};
 window.tabData = tabData;
 
@@ -42,11 +44,10 @@ chrome.extension.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type !== 'openLinksPage') {
     return;
   }
-  const linksPage = chrome.extension.getURL('html/links.html');
   chrome.tabs.create({
     index: sender.tab.index + 1,
     openerTabId: sender.tab.id,
-    url: linksPage
+    url: LINKS_PAGE
   }, newTab => {
     tabData[newTab.id] = {
       source: sender.tab.url,
