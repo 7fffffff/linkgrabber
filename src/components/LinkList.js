@@ -116,10 +116,10 @@ const LinkList = React.createClass({
         {status}
 
         <div className="LinkPageOptions checkbox">
-          <label>
+          <label className="LinkPageOption">
             <input type="checkbox" checked={this.state.dedup} onChange={this.toggleDedup} /> Hide duplicate links
           </label>
-          <label>
+          <label className="LinkPageOption">
             <input type="checkbox" checked={this.state.groupByDomain} onChange={this.toggleGroupByDomain} /> Group by domain
           </label>
         </div>

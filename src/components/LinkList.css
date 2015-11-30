@@ -5,7 +5,11 @@
   text-overflow: ellipsis;
 }
 
-.LinkPageOptions label + label {
+.LinkPageOption {
+  -webkit-user-select: none;
+}
+
+.LinkPageOption + .LinkPageOption {
   margin-left: 1em;
 }
 
