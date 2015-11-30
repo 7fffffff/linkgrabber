@@ -15,8 +15,8 @@ function warnLastError() {
   }
 }
 
-chrome.runtime.onInstalled.addListener(function() {
-  chrome.storage.sync.get(DEFAULT_SETTINGS, function(options) {
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.storage.sync.get(DEFAULT_SETTINGS, options => {
     chrome.storage.sync.set(options);
     chrome.contextMenus.create({
       id: 'Link Grabber',
@@ -25,7 +25,7 @@ chrome.runtime.onInstalled.addListener(function() {
       documentUrlPatterns: ['http://*/*', 'https://*/*', 'file://*/*']
     }, warnLastError);
   });
-  chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
+  chrome.declarativeContent.onPageChanged.removeRules(undefined, () => {
     chrome.declarativeContent.onPageChanged.addRules([{
       conditions: [
         new chrome.declarativeContent.PageStateMatcher({
@@ -47,7 +47,7 @@ chrome.extension.onMessage.addListener((message, sender, sendResponse) => {
     index: sender.tab.index + 1,
     openerTabId: sender.tab.id,
     url: linksPage
-  }, function (newTab) {
+  }, newTab => {
     tabData[newTab.id] = {
       source: sender.tab.url,
       links: message.links

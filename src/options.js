@@ -17,14 +17,14 @@ function render(storage) {
 
 let stored = {};
 
-chrome.storage.onChanged.addListener(function (changes, areaName) {
+chrome.storage.onChanged.addListener((changes, areaName) => {
   for (let key in changes) {
     stored[key] = changes[key].newValue;
   }
   render(stored);
 });
 
-chrome.storage.sync.get(null, function (items) {
+chrome.storage.sync.get(null, items => {
   stored = items;
   if (stored.blockedDomains == null) {
     stored.blockedDomains = [];

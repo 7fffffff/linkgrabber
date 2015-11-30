@@ -29,7 +29,7 @@ const Options = React.createClass({
     this.props.setBlockedDomains(blockedDomains);
   },
   render: function () {
-    const blockedDomains = this.props.blockedDomains.map(function (domain, index) {
+    const blockedDomains = this.props.blockedDomains.map((domain, index) => {
       return (
         <tr key={domain}>
           <td className="txtM">

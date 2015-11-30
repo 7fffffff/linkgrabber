@@ -3,7 +3,7 @@ import './LinkList.css';
 
 function dedup (links) {
   const uniq = {};
-  return links.reduce(function (memo, link) {
+  return links.reduce((memo, link) => {
     if (!uniq[link.href]) {
       memo.push(link);
       uniq[link.href] = true;
@@ -82,7 +82,7 @@ const LinkList = React.createClass({
     if (this.state.groupByDomain) {
       links = groupByDomain(links);
     }
-    links = links.map(function (link, index) {
+    links = links.map((link, index) => {
       return (
         <li key={index}>
           <a href={link.href}>{link.href}</a>

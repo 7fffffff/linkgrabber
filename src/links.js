@@ -27,7 +27,7 @@ function blockDomains(links, blockedDomains) {
     return links;
   }
   const blockPattern = domainPattern(blockedDomains);
-  return links.reduce(function(acc, link) {
+  return links.reduce((acc, link) => {
     if (!blockPattern.exec(link.hostname)) {
       acc.push(link);
     }
@@ -35,9 +35,9 @@ function blockDomains(links, blockedDomains) {
   }, []);
 }
 
-chrome.tabs.query({active: true, windowId: chrome.windows.WINDOW_ID_CURRENT}, function(tabs) {
-  chrome.storage.sync.get(null, function (options) {
-    chrome.runtime.getBackgroundPage(function (page) {
+chrome.tabs.query({active: true, windowId: chrome.windows.WINDOW_ID_CURRENT}, tabs => {
+  chrome.storage.sync.get(null, options => {
+    chrome.runtime.getBackgroundPage(page => {
       var data = page.tabData[tabs[0].id];
       if (data) {
         document.title = 'Extracted Links for ' + data.source;
