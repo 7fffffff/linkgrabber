@@ -1,23 +1,19 @@
 import chrome from 'chrome';
-const acceptPattern = /^(?:http:|https:|file:)/;
 
-const links = new Array(document.links.length);
-links.length = 0;
-for (let i = 0; i < document.links.length; i++) {
-  if (acceptPattern.exec(document.links[i].href)) {
-    links.push({
-      hash: document.links[i].hash,
-      host: document.links[i].host,
-      hostname: document.links[i].hostname,
-      href: document.links[i].href,
-      pathname: document.links[i].pathname,
-      search: document.links[i].search,
-      text: document.links[i].text
-    });
+const elements = document.querySelectorAll('a:link:not([href^=javascript])');
+if (elements.length > 0) {
+  const links = new Array(elements);
+  for (let i = 0; i < elements.length; i++) {
+    links[i] = {
+      hash: elements[i].hash,
+      host: elements[i].host,
+      hostname: elements[i].hostname,
+      href: elements[i].href,
+      pathname: elements[i].pathname,
+      search: elements[i].search,
+      text: elements[i].text
+    };
   }
-}
-
-if (links.length > 0) {
   chrome.runtime.sendMessage(null, {
     type: 'openLinksPage',
     links: links

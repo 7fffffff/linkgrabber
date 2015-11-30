@@ -32,7 +32,7 @@ chrome.runtime.onInstalled.addListener(() => {
       conditions: [
         new chrome.declarativeContent.PageStateMatcher({
           pageUrl: { schemes: ['http', 'https', 'file'] },
-          css: ['a[href^=http], a[href^=https], a[href^=file]']
+          css: ['a:link:not([href^=javascript])']
         }),
       ],
       actions: [ new chrome.declarativeContent.ShowPageAction() ]
