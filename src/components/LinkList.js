@@ -1,12 +1,14 @@
 import React from 'react';
 import './LinkList.css';
 
-function dedup (links) {
+function findDuplicates (links) {
   const uniq = {};
   return links.reduce((memo, link) => {
     if (!uniq[link.href]) {
-      memo.push(link);
+      memo.push(false);
       uniq[link.href] = true;
+    } else {
+      memo.push(true)
     }
     return memo;
   }, []);
@@ -66,35 +68,38 @@ const LinkList = React.createClass({
         </div>
       );
     }
-    let links = this.props.links.slice();
-    const total = links.length;
+    const links = this.state.groupByDomain ? groupByDomain(links) : this.props.links;
     let noLinksFound = null;
-    if (total === 0) {
+    if (links.length === 0) {
       noLinksFound = (
         <p>
           No links were found.
         </p>
       );
     }
-    if (this.state.dedup) {
-      links = dedup(links);
-    }
-    if (this.state.groupByDomain) {
-      links = groupByDomain(links);
-    }
-    links = links.map((link, index) => {
-      return (
+    const duplicates = findDuplicates(links);
+    const items = links.reduce((memo, link, index) => {
+      const style = {};
+      if (duplicates[index]) {
+        if (this.state.dedup) {
+          return memo;
+        } else {
+          style.color = '#aaa';
+        }
+      }
+      memo.push(
         <li key={index}>
-          <a href={link.href}>{link.href}</a>
+          <a href={link.href} style={style}>{link.href}</a>
         </li>
       );
-    });
+      return memo;
+    }, []);
     return (
       <div className="container-fluid">
         <h1 className="links-header">{this.props.source}</h1>
 
         <div className="status">
-          {links.length} links of out {total} shown
+          {items.length} links of out {links.length} shown
         </div>
 
         <div className="links-options checkbox">
@@ -106,11 +111,12 @@ const LinkList = React.createClass({
           </label>
         </div>
 
+        {noLinksFound}
+
         <ul className="links-list">
-          {links}
+          {items}
         </ul>
 
-        {noLinksFound}
       </div>
     );
   }
