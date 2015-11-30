@@ -10,41 +10,6 @@ const DEFAULT_SETTINGS = {
 const tabData = {};
 window.tabData = tabData;
 
-chrome.runtime.onInstalled.addListener(function() {
-  chrome.storage.sync.get(DEFAULT_SETTINGS, function(options) {
-    chrome.storage.sync.set(options);
-  });
-});
-
-chrome.extension.onMessage.addListener(function (message, sender, sendResponse) {
-  if (message === 'showAction') {
-    chrome.pageAction.show(sender.tab.id);
-  }
-});
-
-chrome.storage.sync.get(null, function (options) {
-  if (options.showContextMenuAction) {
-    chrome.contextMenus.create({
-      id: 'Link Grabber',
-      title: 'Link Grabber',
-      contexts: ['page'],
-      documentUrlPatterns: ['http://*/*', 'https://*/*', 'file://*/*']
-    });
-  } else {
-    chrome.contextMenus.remove('Link Grabber');
-  }
-});
-
-chrome.contextMenus.onClicked.addListener(function (info, tab) {
-  openLinksPage(tab);
-});
-
-chrome.pageAction.onClicked.addListener(openLinksPage);
-
-chrome.tabs.onRemoved.addListener(function(tabId, removeInfo) {
-  delete tabData[tabId];
-});
-
 function openLinksPage (tab) {
   const linksPage = chrome.extension.getURL('html/links.html');
   chrome.tabs.sendMessage(tab.id, 'getLinks', function (links) {
@@ -60,3 +25,44 @@ function openLinksPage (tab) {
     });
   });
 }
+
+function warnLastError() {
+  if (chrome.runtime.lastError) {
+    console.warn(chrome.runtime.lastError);
+  }
+}
+
+chrome.runtime.onInstalled.addListener(function() {
+  chrome.storage.sync.get(DEFAULT_SETTINGS, function(options) {
+    chrome.storage.sync.set(options);
+  });
+});
+
+chrome.extension.onMessage.addListener(function (message, sender, sendResponse) {
+  if (message === 'showAction') {
+    chrome.pageAction.show(sender.tab.id);
+  }
+});
+
+chrome.contextMenus.onClicked.addListener(function (info, tab) {
+  openLinksPage(tab);
+});
+
+chrome.pageAction.onClicked.addListener(openLinksPage);
+
+chrome.tabs.onRemoved.addListener(function(tabId, removeInfo) {
+  delete tabData[tabId];
+});
+
+chrome.storage.sync.get(null, function (options) {
+  if (options.showContextMenuAction) {
+    chrome.contextMenus.create({
+      id: 'Link Grabber',
+      title: 'Link Grabber',
+      contexts: ['page'],
+      documentUrlPatterns: ['http://*/*', 'https://*/*', 'file://*/*']
+    }, warnLastError);
+  } else {
+    chrome.contextMenus.remove('Link Grabber', warnLastError);
+  }
+});
