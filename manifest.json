@@ -3,7 +3,7 @@
   "manifest_version": 2,
   "version" : "0.2.1",
   "description" : "Extracts hyperlinks from an HTML page",
-  "permissions" : [ "contextMenus", "storage" ],
+  "permissions" : [ "activeTab", "contextMenus", "declarativeContent", "storage" ],
   "incognito": "split",
 
   "options_page": "/html/options.html",
@@ -23,14 +23,5 @@
   "background" : {
     "scripts" : [ "/js/background.js" ],
     "persistent" : false
-  },
-
-  "content_scripts" : [
-    {
-      "matches" : [ "http://*/*", "https://*/*" ],
-      "js" : [ "/js/contentscript.js" ],
-      "run_at" : "document_idle",
-      "all_frames" : false
-    }
-  ]
+  }
 }
