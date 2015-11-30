@@ -29,7 +29,7 @@ function groupByDomain(links) {
     if (a.index < b.index) {
       return -1;
     }
-    if (b.index > a.index) {
+    if (a.index > b.index) {
       return 1;
     }
     return 0;
