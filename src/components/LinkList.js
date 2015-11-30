@@ -15,40 +15,25 @@ function groupByDomain(links) {
   let mapped = links.map((link, i) => {
     return {
       index: i,
-      link: link,
       reverseHostname: link.hostname.split('.').reverse().join('.')
     };
   });
-  mapped.sort(function (a, b) {
-    const ahr = a.reverseHostname;
-    const bhr = b.reverseHostname;
-    if (ahr < bhr) {
+  mapped.sort((a, b) => {
+    if (a.reverseHostname < b.reverseHostname) {
       return -1;
     }
-    if (ahr > bhr) {
+    if (a.reverseHostname > b.reverseHostname) {
       return 1;
     }
-    if (a.link.pathname < b.link.pathname) {
+    if (a.index < b.index) {
       return -1;
     }
-    if (a.link.pathname > b.link.pathname) {
-      return 1;
-    }
-    if (a.link.search < b.link.search) {
-      return -1;
-    }
-    if (a.link.search > b.link.search) {
-      return 1;
-    }
-    if (a.link.hash < b.link.hash) {
-      return -1;
-    }
-    if (a.link.hash > b.link.hash) {
+    if (b.index > a.index) {
       return 1;
     }
     return 0;
   });
-  return mapped.map(link => links[link.index]);
+  return mapped.map(v => links[v.index]);
 }
 
 const LinkList = React.createClass({
