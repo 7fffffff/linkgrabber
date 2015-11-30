@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 import './LinkList.css';
 
 function findDuplicates (links) {
@@ -60,7 +61,7 @@ const LinkList = React.createClass({
     if (this.props.expired) {
       return (
         <div className="container-fluid">
-          <h1>Expired</h1>
+          <h1 className="LinkPageHeader">Expired</h1>
           <p>
             Link information has expired and is no longer available.
             Please close this tab and try again.
@@ -79,17 +80,15 @@ const LinkList = React.createClass({
     }
     const duplicates = findDuplicates(links);
     const items = links.reduce((memo, link, index) => {
-      const style = {};
-      if (duplicates[index]) {
-        if (this.state.dedup) {
-          return memo;
-        } else {
-          style.color = '#aaa';
-        }
+      if (this.state.dedup && duplicates[index]) {
+        return memo;
       }
+      const itemClassName = cx('LinkListItem', {
+        'LinkListItem--duplicate': duplicates[index]
+      });
       memo.push(
-        <li key={index}>
-          <a href={link.href} style={style}>{link.href}</a>
+        <li className={itemClassName} key={index}>
+          <a href={link.href}>{link.href}</a>
         </li>
       );
       return memo;
@@ -99,24 +98,24 @@ const LinkList = React.createClass({
       // do nothing
     } else if (items.length === 1) {
       status = (
-        <div className="status">
+        <div className="LinkPageStatus">
           1 link out of {links.length} shown
         </div>
       )
     } else {
       status = (
-        <div className="status">
+        <div className="LinkPageStatus">
           {items.length} links out of {links.length} shown
         </div>
       );
     }
     return (
       <div className="container-fluid">
-        <h1 className="links-header">{this.props.source}</h1>
+        <h1 className="LinkPageHeader">{this.props.source}</h1>
 
         {status}
 
-        <div className="links-options checkbox">
+        <div className="LinkPageOptions checkbox">
           <label>
             <input type="checkbox" checked={this.state.dedup} onChange={this.toggleDedup} /> Hide duplicate links
           </label>
@@ -127,10 +126,9 @@ const LinkList = React.createClass({
 
         {noLinksFound}
 
-        <ul className="links-list">
+        <ul className="LinkList">
           {items}
         </ul>
-
       </div>
     );
   }

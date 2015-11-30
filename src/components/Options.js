@@ -35,7 +35,7 @@ const Options = React.createClass({
           <td className="txtM">
             {domain}
           </td>
-          <td className="action-column">
+          <td className="BadDomainsActionCol">
             <button className="btn btn-block btn-danger" onClick={this.removeDomain.bind(this, index)} >
               remove
             </button>
@@ -50,7 +50,7 @@ const Options = React.createClass({
           <div className="col-sm-6">
             <h2>Blocked Domains</h2>
             <p>Links from blocked domains will not be shown.</p>
-            <table className="table table-striped domains-table">
+            <table className="table table-striped">
               <thead>
                 <tr>
                   <th>domain</th>
@@ -69,7 +69,7 @@ const Options = React.createClass({
                         onChange={this.handleNewBlockDomainChange} />
                     </form>
                   </td>
-                  <td className="action-column">
+                  <td className="BadDomainsActionCol">
                     <button className="btn btn-block btn-primary" onClick={this.blockDomain}>
                       add
                     </button>
