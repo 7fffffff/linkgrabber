@@ -3,7 +3,7 @@ watch: clean
 
 package: build
 	mkdir -p dist
-	zip dist/linkgrabber.zip -r css html images js vendor manifest.json
+	zip -x\*.DS_Store dist/linkgrabber.zip -r css html images js vendor manifest.json
 
 build: clean
 	NODE_ENV=production `npm bin`/webpack
