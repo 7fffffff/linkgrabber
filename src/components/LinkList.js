@@ -5,8 +5,10 @@ import LinkListExpired from './LinkListExpired';
 import './LinkList.css';
 
 function filterLinks (links, s) {
+  const lowerS = s.toLowerCase();
   return links.reduce((memo, link) => {
-    if (link.href.indexOf(s) >= 0) {
+    const lowerHref = link.href.toLowerCase();
+    if (lowerHref.indexOf(lowerS) >= 0) {
       memo.push(link);
     }
     return memo;
