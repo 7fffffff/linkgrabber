@@ -115,24 +115,6 @@ const LinkList = React.createClass({
       );
       return memo;
     }, []);
-    let status = null;
-    if (items.length === 1) {
-      status = (
-        <div className="form-group LinkPageStatus">
-          <p className="form-control-static">
-            1 link out of {this.props.links.length} shown
-          </p>
-        </div>
-      )
-    } else {
-      status = (
-        <div className="form-group LinkPageStatus">
-          <p className="form-control-static">
-            {items.length} links out of {this.props.links.length} shown
-          </p>
-        </div>
-      );
-    }
     return (
       <div className="container-fluid">
         <h1 className="LinkPageHeader">{this.props.source}</h1>
@@ -155,12 +137,11 @@ const LinkList = React.createClass({
             <div className="form-group">
               <input type="text" className="form-control" placeholder="substring filter" autoFocus value={this.state.filter} onChange={this.filterChanged} />
             </div>
-            <div className="form-group">
+            <div className="form-group LinkPageStatus">
               <button className="btn btn-default" disabled={items.length === 0} onClick={this.copyLinks}>
-                Copy {items.length}
+                Copy {items.length} / {this.props.links.length}
               </button>
             </div>
-            {status}
           </div>
         </div>
         <ul ref={n => this.linkList = n} className="LinkList">
