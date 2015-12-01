@@ -59,6 +59,20 @@ const LinkList = React.createClass({
       filter: ''
     };
   },
+  copyLinks: function (event) {
+    const textarea = document.createElement('textarea');
+    const selection = window.getSelection();
+    const prevRange = selection.rangeCount ? selection.getRangeAt(0).cloneRange() : null;
+    const copyFrom = document.createRange();
+    copyFrom.selectNodeContents(this.linkList)
+    selection.removeAllRanges();
+    selection.addRange(copyFrom);
+    document.execCommand('copy');
+    selection.removeAllRanges();
+    if (prevRange) {
+      selection.addRange(prevRange);
+    }
+  },
   filterChanged: function (event) {
     this.setState({filter: event.target.value});
   },
@@ -141,10 +155,15 @@ const LinkList = React.createClass({
             <div className="form-group">
               <input type="text" className="form-control" placeholder="substring filter" autoFocus value={this.state.filter} onChange={this.filterChanged} />
             </div>
+            <div className="form-group">
+              <button className="btn btn-default" disabled={items.length === 0} onClick={this.copyLinks}>
+                Copy {items.length}
+              </button>
+            </div>
             {status}
           </div>
         </div>
-        <ul className="LinkList">
+        <ul ref={n => this.linkList = n} className="LinkList">
           {items}
         </ul>
       </div>
