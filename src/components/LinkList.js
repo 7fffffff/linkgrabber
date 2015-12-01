@@ -60,14 +60,23 @@ const LinkList = React.createClass({
     };
   },
   copyLinks: function (event) {
-    const textarea = document.createElement('textarea');
     const selection = window.getSelection();
     const prevRange = selection.rangeCount ? selection.getRangeAt(0).cloneRange() : null;
+    const tmp = document.createElement('div');
+    const links = this.linkList.querySelectorAll('a');
+    for (let i = 0; i < links.length; i++) {
+      const clone = links[i].cloneNode(true);
+      delete(clone.dataset.reactid);
+      tmp.appendChild(clone);
+      tmp.appendChild(document.createElement('br'));
+    }
+    document.body.appendChild(tmp);
     const copyFrom = document.createRange();
-    copyFrom.selectNodeContents(this.linkList)
+    copyFrom.selectNodeContents(tmp);
     selection.removeAllRanges();
     selection.addRange(copyFrom);
     document.execCommand('copy');
+    document.body.removeChild(tmp);
     selection.removeAllRanges();
     if (prevRange) {
       selection.addRange(prevRange);
