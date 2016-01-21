@@ -4,7 +4,7 @@ import './Options.css';
 const Options = React.createClass({
   getInitialState: function () {
     return {
-      newBlockedDomain: ''
+      newBlockedDomain: '',
     };
   },
   blockDomain: function (event) {
@@ -20,7 +20,7 @@ const Options = React.createClass({
   },
   handleNewBlockDomainChange: function (event) {
     this.setState({
-      newBlockedDomain: event.target.value
+      newBlockedDomain: event.target.value,
     });
   },
   removeDomain: function (index) {
@@ -81,7 +81,7 @@ const Options = React.createClass({
         </div>
       </div>
     );
-  }
+  },
 });
 
 export default Options;

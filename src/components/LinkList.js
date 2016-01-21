@@ -43,7 +43,7 @@ function groupByDomain(links) {
   let mapped = links.map((link, i) => {
     return {
       index: i,
-      reverseHostname: link.hostname.split('.').reverse().join('.')
+      reverseHostname: link.hostname.split('.').reverse().join('.'),
     };
   });
   mapped.sort((a, b) => {
@@ -70,7 +70,7 @@ const LinkList = React.createClass({
       showDuplicates: false,
       showBlockedDomains: false,
       groupByDomain: false,
-      filter: ''
+      filter: '',
     };
   },
   copyLinks: function (event) {
@@ -101,17 +101,17 @@ const LinkList = React.createClass({
   },
   toggleBlockedLinks: function () {
     this.setState({
-      showBlockedDomains: !this.state.showBlockedDomains
+      showBlockedDomains: !this.state.showBlockedDomains,
     });
   },
   toggleDedup: function () {
     this.setState({
-      showDuplicates: !this.state.showDuplicates
+      showDuplicates: !this.state.showDuplicates,
     });
   },
   toggleGroupByDomain: function () {
     this.setState({
-      groupByDomain: !this.state.groupByDomain
+      groupByDomain: !this.state.groupByDomain,
     });
   },
   render: function () {
@@ -189,7 +189,7 @@ const LinkList = React.createClass({
         </ul>
       </div>
     );
-  }
+  },
 });
 
 export default LinkList;

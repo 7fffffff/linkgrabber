@@ -10,10 +10,10 @@ for (let i = 0; i < elements.length; i++) {
     href: elements[i].href,
     pathname: elements[i].pathname,
     search: elements[i].search,
-    text: elements[i].text
+    text: elements[i].text,
   };
 }
 chrome.runtime.sendMessage(null, {
   type: 'openLinksPage',
-  links: links
+  links: links,
 });

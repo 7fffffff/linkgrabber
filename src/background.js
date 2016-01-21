@@ -1,7 +1,7 @@
 import chrome from 'chrome';
 
 const DEFAULT_SETTINGS = {
-  blockedDomains: ['bad.example.com']
+  blockedDomains: ['bad.example.com'],
 };
 
 const LINKS_PAGE = chrome.extension.getURL('html/links.html');
@@ -22,7 +22,7 @@ chrome.runtime.onInstalled.addListener(() => {
       id: 'Link Grabber',
       title: 'Link Grabber',
       contexts: ['page'],
-      documentUrlPatterns: ['http://*/*', 'https://*/*', 'file://*/*']
+      documentUrlPatterns: ['http://*/*', 'https://*/*', 'file://*/*'],
     }, warnLastError);
   });
   chrome.declarativeContent.onPageChanged.removeRules(undefined, () => {
@@ -30,10 +30,10 @@ chrome.runtime.onInstalled.addListener(() => {
       conditions: [
         new chrome.declarativeContent.PageStateMatcher({
           pageUrl: { schemes: ['http', 'https', 'file'] },
-          css: ['a:link:not([href^=javascript])']
+          css: ['a:link:not([href^=javascript])'],
         }),
       ],
-      actions: [ new chrome.declarativeContent.ShowPageAction() ]
+      actions: [ new chrome.declarativeContent.ShowPageAction() ],
     }]);
   });
 });
@@ -45,24 +45,24 @@ chrome.extension.onMessage.addListener((message, sender, sendResponse) => {
   chrome.tabs.create({
     index: sender.tab.index + 1,
     openerTabId: sender.tab.id,
-    url: LINKS_PAGE
+    url: LINKS_PAGE,
   }, newTab => {
     tabData[newTab.id] = {
       source: sender.tab.url,
-      links: message.links
+      links: message.links,
     };
   });
 });
 
 chrome.pageAction.onClicked.addListener(tab => {
   chrome.tabs.executeScript(tab.id, {
-    file: '/js/contentscript.js'
+    file: '/js/contentscript.js',
   });
 });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   chrome.tabs.executeScript(tab.id, {
-    file: '/js/contentscript.js'
+    file: '/js/contentscript.js',
   });
 });
 
