@@ -15,6 +15,17 @@ function filterLinks (links, s) {
   }, []);
 }
 
+function findBlockedLinks (links, pattern) {
+  return links.reduce((acc, link) => {
+    if (pattern && pattern.exec(link.hostname)) {
+      acc.push(true);
+    } else {
+      acc.push(false);
+    }
+    return acc;
+  }, []);
+}
+
 function findDuplicates (links) {
   const uniq = {};
   return links.reduce((memo, link) => {
@@ -22,7 +33,7 @@ function findDuplicates (links) {
       memo.push(false);
       uniq[link.href] = true;
     } else {
-      memo.push(true)
+      memo.push(true);
     }
     return memo;
   }, []);
@@ -56,7 +67,8 @@ function groupByDomain(links) {
 const LinkList = React.createClass({
   getInitialState: function () {
     return {
-      dedup: this.props.dedup,
+      showDuplicates: false,
+      showBlockedDomains: false,
       groupByDomain: false,
       filter: ''
     };
@@ -87,9 +99,14 @@ const LinkList = React.createClass({
   filterChanged: function (event) {
     this.setState({filter: event.target.value});
   },
+  toggleBlockedLinks: function () {
+    this.setState({
+      showBlockedDomains: !this.state.showBlockedDomains
+    });
+  },
   toggleDedup: function () {
     this.setState({
-      dedup: !this.state.dedup
+      showDuplicates: !this.state.showDuplicates
     });
   },
   toggleGroupByDomain: function () {
@@ -111,13 +128,18 @@ const LinkList = React.createClass({
     if (this.state.filter) {
       links = filterLinks(links, this.state.filter);
     }
+    const blocked = findBlockedLinks(links, this.props.blockPattern);
     const duplicates = findDuplicates(links);
     const items = links.reduce((memo, link, index) => {
-      if (this.state.dedup && duplicates[index]) {
+      if (!this.state.showDuplicates && duplicates[index]) {
+        return memo;
+      }
+      if (!this.state.showBlockedDomains && blocked[index]) {
         return memo;
       }
       const itemClassName = cx('LinkListItem', {
-        'LinkListItem--duplicate': duplicates[index]
+        'LinkListItem--blocked': blocked[index],
+        'LinkListItem--duplicate': duplicates[index],
       });
       memo.push(
         <li className={itemClassName} key={index}>
@@ -134,7 +156,14 @@ const LinkList = React.createClass({
             <div className="form-group">
               <div >
                 <label className="checkbox-inline">
-                  <input type="checkbox" checked={this.state.dedup} onChange={this.toggleDedup} /> Hide duplicate links
+                  <input type="checkbox" checked={this.state.showDuplicates} onChange={this.toggleDedup} /> Show duplicate links
+                </label>
+              </div>
+            </div>
+            <div className="form-group">
+              <div >
+                <label className="checkbox-inline">
+                  <input type="checkbox" checked={this.state.showBlockedDomains} onChange={this.toggleBlockedLinks} /> Show blocked links
                 </label>
               </div>
             </div>

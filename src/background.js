@@ -1,8 +1,6 @@
 import chrome from 'chrome';
 
 const DEFAULT_SETTINGS = {
-  dedup: true,
-  priorityDomains: ['example.com'],
   blockedDomains: ['bad.example.com']
 };
 
