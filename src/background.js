@@ -18,13 +18,13 @@ function warnLastError() {
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.sync.get(DEFAULT_SETTINGS, options => {
     chrome.storage.sync.set(options);
-    chrome.contextMenus.create({
-      id: 'Link Grabber',
-      title: 'Link Grabber',
-      contexts: ['page'],
-      documentUrlPatterns: ['http://*/*', 'https://*/*', 'file://*/*'],
-    }, warnLastError);
   });
+  chrome.contextMenus.create({
+    id: 'Link Grabber',
+    title: 'Link Grabber',
+    contexts: ['page'],
+    documentUrlPatterns: ['http://*/*', 'https://*/*', 'file://*/*'],
+  }, warnLastError);
   chrome.declarativeContent.onPageChanged.removeRules(undefined, () => {
     chrome.declarativeContent.onPageChanged.addRules([{
       conditions: [
