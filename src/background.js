@@ -9,6 +9,22 @@ const LINKS_PAGE = chrome.extension.getURL('html/links.html');
 const tabData = {};
 window.tabData = tabData;
 
+function openLinksPage (tab) {
+  const linksPage = chrome.extension.getURL('html/links.html');
+  chrome.tabs.sendMessage(tab.id, 'getLinks', function (links) {
+    chrome.tabs.create({
+      index: tab.index + 1,
+      openerTabId: tab.id,
+      url: linksPage
+    }, function (newTab) {
+      tabData[newTab.id] = {
+        source: tab.url,
+        links: links
+      };
+    });
+  });
+}
+
 function warnLastError() {
   if (chrome.runtime.lastError) {
     console.warn(chrome.runtime.lastError);
@@ -25,46 +41,19 @@ chrome.runtime.onInstalled.addListener(() => {
     contexts: ['page'],
     documentUrlPatterns: ['http://*/*', 'https://*/*', 'file://*/*'],
   }, warnLastError);
-  chrome.declarativeContent.onPageChanged.removeRules(undefined, () => {
-    chrome.declarativeContent.onPageChanged.addRules([{
-      conditions: [
-        new chrome.declarativeContent.PageStateMatcher({
-          pageUrl: { schemes: ['http', 'https', 'file'] },
-          css: ['a:link:not([href^=javascript])'],
-        }),
-      ],
-      actions: [ new chrome.declarativeContent.ShowPageAction() ],
-    }]);
-  });
 });
 
-chrome.extension.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type !== 'openLinksPage') {
-    return;
+chrome.extension.onMessage.addListener(function (message, sender, sendResponse) {
+  if (message === 'showAction') {
+    chrome.pageAction.show(sender.tab.id);
   }
-  chrome.tabs.create({
-    index: sender.tab.index + 1,
-    openerTabId: sender.tab.id,
-    url: LINKS_PAGE,
-  }, newTab => {
-    tabData[newTab.id] = {
-      source: sender.tab.url,
-      links: message.links,
-    };
-  });
 });
 
-chrome.pageAction.onClicked.addListener(tab => {
-  chrome.tabs.executeScript(tab.id, {
-    file: '/js/contentscript.js',
-  });
+chrome.contextMenus.onClicked.addListener(function (info, tab) {
+  openLinksPage(tab);
 });
 
-chrome.contextMenus.onClicked.addListener((info, tab) => {
-  chrome.tabs.executeScript(tab.id, {
-    file: '/js/contentscript.js',
-  });
-});
+chrome.pageAction.onClicked.addListener(openLinksPage);
 
 chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
   delete tabData[tabId];
