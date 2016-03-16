@@ -11,20 +11,26 @@
   "rules": {
     "comma-dangle": [1, "always-multiline"],
     "jsx-quotes": [2, "prefer-double"],
-    "react/display-name": [2, {"acceptTranspilerName": true}],
+    "react/display-name": [2, {"ignoreTranspilerName": false}],
     "react/sort-comp": 2,
     "react/jsx-curly-spacing": [2, "never"],
     "react/jsx-no-duplicate-props": 2,
     "react/jsx-no-undef": 2,
+    "react/jsx-uses-react": 1,
+    "react/jsx-uses-vars": 1,
+    "react/no-deprecated": 2,
     "react/no-unknown-property": 2,
     "react/wrap-multilines": 2,
     "semi": [2, "always"],
     "strict": [2, "global"],
     "quotes": [2, "single"],
+    "no-console": 1,
     "no-unused-vars": [2, {"args": "none"}]
   },
-  "ecmaFeatures": {
-    "modules": true,
-    "jsx": true
+  "parserOptions": {
+    "ecmaFeatures": {
+      "modules": true,
+      "jsx": true
+    }
   }
 }

@@ -4,28 +4,42 @@ var config = {
     background: './src/background.js',
     contentscript: './src/contentscript.js',
     links: './src/links.js',
-    options: './src/options.js'
+    options: './src/options.js',
   },
   output: {
     path: './js/',
-    filename: '[name].js'
+    filename: '[name].js',
   },
   module: {
     loaders: [
-      { test: /\.css$/, exclude: /\.useable\.css$/, loader: 'style!css' },
-      { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader' },
-      { test: /\.useable\.css$/, loader: 'style/useable!css' }
+      {
+        test: /\.css$/,
+        exclude: /\.useable\.css$/,
+        loader: 'style!css',
+      },
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015', 'react'],
+        }
+      },
+      {
+        test: /\.useable\.css$/,
+        loader: 'style/useable!css',
+      }
     ]
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
   externals: {
-    'chrome': 'chrome'
+    'chrome': 'chrome',
   },
   plugins: [
     new webpack.EnvironmentPlugin('NODE_ENV')
-  ]
+  ],
 };
 
 if (process.env.NODE_ENV === 'production') {
