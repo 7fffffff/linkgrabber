@@ -1,12 +1,16 @@
 import chrome from 'chrome';
 
-const elements = document.querySelectorAll('a:link:not([href^=javascript])');
-if (elements.length > 0) {
+function allLinks () {
+  return document.querySelectorAll('a:link:not([href^=javascript])');
+}
+
+if (allLinks().length > 0) {
   chrome.extension.sendMessage(null, 'showAction');
   chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
     if (message !== 'getLinks') {
       return;
     }
+    const elements = allLinks();
     const links = new Array(elements.length);
     for (let i = 0; i < elements.length; i++) {
       links[i] = {
