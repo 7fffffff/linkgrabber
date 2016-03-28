@@ -4,30 +4,12 @@ const DEFAULT_SETTINGS = {
   blockedDomains: ['bad.example.com'],
 };
 
-const LINKS_PAGE = chrome.extension.getURL('html/links.html');
-
 const tabData = {};
 window.tabData = tabData;
 
-function openLinksPage (tab) {
-  const linksPage = chrome.extension.getURL('html/links.html');
-  chrome.tabs.sendMessage(tab.id, 'getLinks', function (links) {
-    chrome.tabs.create({
-      index: tab.index + 1,
-      openerTabId: tab.id,
-      url: linksPage
-    }, function (newTab) {
-      tabData[newTab.id] = {
-        source: tab.url,
-        links: links
-      };
-    });
-  });
-}
-
 function warnLastError() {
   if (chrome.runtime.lastError) {
-    console.warn(chrome.runtime.lastError);
+    console.warn(chrome.runtime.lastError); // eslint-disable-line
   }
 }
 
@@ -43,18 +25,32 @@ chrome.runtime.onInstalled.addListener(() => {
   }, warnLastError);
 });
 
-chrome.extension.onMessage.addListener(function (message, sender, sendResponse) {
-  if (message === 'showAction') {
-    chrome.pageAction.show(sender.tab.id);
-  }
+chrome.browserAction.onClicked.addListener(function(tab) {
+  chrome.tabs.executeScript(null, {
+    file: 'js/contentscript.js',
+  });
 });
 
 chrome.contextMenus.onClicked.addListener(function (info, tab) {
-  openLinksPage(tab);
+  chrome.tabs.executeScript(null, {
+    file: 'js/contentscript.js',
+  });
 });
-
-chrome.pageAction.onClicked.addListener(openLinksPage);
 
 chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
   delete tabData[tabId];
+});
+
+chrome.extension.onMessage.addListener(function(links, sender, sendResponse) {
+  const tab = sender.tab;
+  chrome.tabs.create({
+    index: tab.index + 1,
+    openerTabId: tab.id,
+    url: chrome.extension.getURL('html/links.html'),
+  }, function (newTab) {
+    tabData[newTab.id] = {
+      source: tab.url,
+      links: links,
+    };
+  });
 });

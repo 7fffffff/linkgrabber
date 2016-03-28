@@ -3,7 +3,7 @@
   "manifest_version": 2,
   "version" : "0.4.0",
   "description" : "Extracts hyperlinks from an HTML page",
-  "permissions" : [ "activeTab", "clipboardWrite", "contextMenus", "storage" ],
+  "permissions" : [ "activeTab", "clipboardWrite", "contextMenus", "storage"],
   "incognito": "split",
 
   "options_page": "/html/options.html",
@@ -15,22 +15,13 @@
     "128": "/images/link_go_128.png"
   },
 
-  "page_action" : {
-    "default_icon" : "/images/link_go_19.png",
-    "default_title" : "Extract the links on this page"
-  },
-
   "background" : {
     "scripts" : [ "/js/background.js" ],
     "persistent" : false
   },
 
-  "content_scripts": [
-    {
-      "matches" : [ "http://*/*", "https://*/*" ],
-      "js" : [ "/js/contentscript.js" ],
-      "run_at" : "document_idle",
-      "all_frames" : false
-    }
-  ]
+  "browser_action": {
+    "default_icon" : "/images/link_go_19.png",
+    "default_title" : "Extract the links on this page"
+  }
 }
