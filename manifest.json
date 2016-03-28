@@ -1,7 +1,7 @@
 {
   "name" : "Link Grabber",
   "manifest_version": 2,
-  "version" : "0.3.2",
+  "version" : "0.4.0",
   "description" : "Extracts hyperlinks from an HTML page",
   "permissions" : [ "activeTab", "clipboardWrite", "contextMenus", "storage" ],
   "incognito": "split",
