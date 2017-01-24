@@ -11,28 +11,30 @@ var config = {
     filename: '[name].js',
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.css$/,
-        exclude: /\.useable\.css$/,
-        loader: 'style!css',
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
       },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'react'],
-        }
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['es2015', 'react'],
+            },
+          }
+        ],
       },
-      {
-        test: /\.useable\.css$/,
-        loader: 'style/useable!css',
-      }
     ]
   },
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['.js', '.jsx']
   },
   externals: {
     'chrome': 'chrome',
