@@ -3,6 +3,10 @@ body {
   overflow-y: scroll;
 }
 
+a:visited {
+  color: #551a8b;
+}
+
 /* horizontal alignment */
 .txtC, table .txtC, table tr .txtC{text-align:center;}
 .txtL, table .txtL, table tr .txtL{text-align:left;}
