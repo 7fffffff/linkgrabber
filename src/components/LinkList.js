@@ -1,5 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
+import debounce from 'lodash.debounce';
 import LinkListEmpty from './LinkListEmpty';
 import LinkListExpired from './LinkListExpired';
 import './LinkList.css';
@@ -71,7 +72,14 @@ const LinkList = React.createClass({
       showBlockedDomains: false,
       groupByDomain: false,
       filter: '',
+      nextFilter: '',
     };
+  },
+  applyFilter: function () {
+    this.setState({filter: this.state.nextFilter});
+  },
+  componentWillMount: function () {
+    this.applyFilter = debounce(this.applyFilter, 100, {trailing: true});
   },
   copyLinks: function (event) {
     const selection = window.getSelection();
@@ -97,7 +105,7 @@ const LinkList = React.createClass({
     }
   },
   filterChanged: function (event) {
-    this.setState({filter: event.target.value});
+    this.setState({nextFilter: event.target.value}, this.applyFilter);
   },
   toggleBlockedLinks: function () {
     this.setState({
@@ -175,7 +183,7 @@ const LinkList = React.createClass({
               </div>
             </div>
             <div className="form-group">
-              <input type="text" className="form-control" placeholder="substring filter" autoFocus value={this.state.filter} onChange={this.filterChanged} />
+              <input type="text" className="form-control" placeholder="substring filter" autoFocus value={this.state.nextFilter} onChange={this.filterChanged} />
             </div>
             <div className="form-group LinkPageStatus">
               <button className="btn btn-default" disabled={items.length === 0} onClick={this.copyLinks}>

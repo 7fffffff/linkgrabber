@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "classnames": "~2.2.5",
+    "lodash.debounce": "~4.0.8",
     "react": "~15.4.2",
     "react-dom": "~15.4.2"
   },
