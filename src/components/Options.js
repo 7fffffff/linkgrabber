@@ -1,13 +1,12 @@
 import React from 'react';
 import './Options.css';
 
-const Options = React.createClass({
-  getInitialState: function () {
-    return {
-      newBlockedDomain: '',
-    };
-  },
-  blockDomain: function (event) {
+class Options extends React.Component {
+  state = {
+    newBlockedDomain: '',
+  };
+
+  blockDomain = (event) => {
     event.preventDefault();
     const val = this.state.newBlockedDomain.toLowerCase().trim();
     if (val === '') {
@@ -17,18 +16,21 @@ const Options = React.createClass({
     blockedDomains.push(val);
     this.setState({newBlockedDomain: ''});
     this.props.setBlockedDomains(blockedDomains);
-  },
-  handleNewBlockDomainChange: function (event) {
+  };
+
+  handleNewBlockDomainChange = (event) => {
     this.setState({
       newBlockedDomain: event.target.value,
     });
-  },
-  removeDomain: function (index) {
+  };
+
+  removeDomain = (index) => {
     const blockedDomains = this.props.blockedDomains.slice(0);
     blockedDomains.splice(index, 1);
     this.props.setBlockedDomains(blockedDomains);
-  },
-  render: function () {
+  };
+
+  render() {
     const blockedDomains = this.props.blockedDomains.map((domain, index) => {
       return (
         <tr key={domain}>
@@ -81,7 +83,7 @@ const Options = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
 
 export default Options;

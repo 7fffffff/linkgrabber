@@ -65,23 +65,24 @@ function groupByDomain(links) {
   return mapped.map(v => links[v.index]);
 }
 
-const LinkList = React.createClass({
-  getInitialState: function () {
-    return {
-      showDuplicates: false,
-      showBlockedDomains: false,
-      groupByDomain: false,
-      filter: '',
-      nextFilter: '',
-    };
-  },
-  applyFilter: function () {
+class LinkList extends React.Component {
+  state = {
+    showDuplicates: false,
+    showBlockedDomains: false,
+    groupByDomain: false,
+    filter: '',
+    nextFilter: '',
+  };
+
+  applyFilter = () => {
     this.setState({filter: this.state.nextFilter});
-  },
-  componentWillMount: function () {
+  };
+
+  componentWillMount() {
     this.applyFilter = debounce(this.applyFilter, 100, {trailing: true});
-  },
-  copyLinks: function (event) {
+  }
+
+  copyLinks = (event) => {
     const selection = window.getSelection();
     const prevRange = selection.rangeCount ? selection.getRangeAt(0).cloneRange() : null;
     const tmp = document.createElement('div');
@@ -103,26 +104,31 @@ const LinkList = React.createClass({
     if (prevRange) {
       selection.addRange(prevRange);
     }
-  },
-  filterChanged: function (event) {
+  };
+
+  filterChanged = (event) => {
     this.setState({nextFilter: event.target.value}, this.applyFilter);
-  },
-  toggleBlockedLinks: function () {
+  };
+
+  toggleBlockedLinks = () => {
     this.setState({
       showBlockedDomains: !this.state.showBlockedDomains,
     });
-  },
-  toggleDedup: function () {
+  };
+
+  toggleDedup = () => {
     this.setState({
       showDuplicates: !this.state.showDuplicates,
     });
-  },
-  toggleGroupByDomain: function () {
+  };
+
+  toggleGroupByDomain = () => {
     this.setState({
       groupByDomain: !this.state.groupByDomain,
     });
-  },
-  render: function () {
+  };
+
+  render() {
     if (this.props.expired) {
       return (<LinkListExpired />);
     }
@@ -197,7 +203,7 @@ const LinkList = React.createClass({
         </ul>
       </div>
     );
-  },
-});
+  }
+}
 
 export default LinkList;

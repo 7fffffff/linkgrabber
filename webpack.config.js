@@ -1,4 +1,6 @@
+var path = require('path');
 var webpack = require('webpack');
+
 var config = {
   entry: {
     background: './src/background.js',
@@ -7,7 +9,7 @@ var config = {
     options: './src/options.js',
   },
   output: {
-    path: './js/',
+    path: path.resolve('./js/'),
     filename: '[name].js',
   },
   module: {
@@ -26,7 +28,8 @@ var config = {
           {
             loader: 'babel-loader',
             options: {
-              presets: ['es2015', 'react'],
+              presets: ['es2015', 'es2016', 'react'],
+              plugins: ['transform-class-properties', 'transform-react-constant-elements', 'transform-react-inline-elements'],
             },
           }
         ],
@@ -40,7 +43,8 @@ var config = {
     'chrome': 'chrome',
   },
   plugins: [
-    new webpack.EnvironmentPlugin('NODE_ENV')
+    new webpack.EnvironmentPlugin('NODE_ENV'),
+    new webpack.optimize.ModuleConcatenationPlugin(),
   ],
 };
 
