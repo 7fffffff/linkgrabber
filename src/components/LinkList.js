@@ -74,13 +74,13 @@ class LinkList extends React.Component {
     nextFilter: '',
   };
 
-  applyFilter = () => {
-    this.setState({ filter: this.state.nextFilter });
-  };
-
   componentWillMount() {
     this.applyFilter = debounce(this.applyFilter, 100, { trailing: true });
   }
+
+  applyFilter = () => {
+    this.setState({ filter: this.state.nextFilter });
+  };
 
   copyLinks = (event) => {
     const selection = window.getSelection();
