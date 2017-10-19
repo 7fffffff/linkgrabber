@@ -5,7 +5,7 @@ import LinkListEmpty from './LinkListEmpty';
 import LinkListExpired from './LinkListExpired';
 import './LinkList.css';
 
-function filterLinks (links, s) {
+function filterLinks(links, s) {
   const lowerS = s.toLowerCase();
   return links.reduce((memo, link) => {
     const lowerHref = link.href.toLowerCase();
@@ -16,7 +16,7 @@ function filterLinks (links, s) {
   }, []);
 }
 
-function findBlockedLinks (links, pattern) {
+function findBlockedLinks(links, pattern) {
   return links.reduce((acc, link) => {
     if (pattern && pattern.exec(link.hostname)) {
       acc.push(true);
@@ -27,7 +27,7 @@ function findBlockedLinks (links, pattern) {
   }, []);
 }
 
-function findDuplicates (links) {
+function findDuplicates(links) {
   const uniq = {};
   return links.reduce((memo, link) => {
     if (!uniq[link.href]) {
@@ -75,11 +75,11 @@ class LinkList extends React.Component {
   };
 
   applyFilter = () => {
-    this.setState({filter: this.state.nextFilter});
+    this.setState({ filter: this.state.nextFilter });
   };
 
   componentWillMount() {
-    this.applyFilter = debounce(this.applyFilter, 100, {trailing: true});
+    this.applyFilter = debounce(this.applyFilter, 100, { trailing: true });
   }
 
   copyLinks = (event) => {
@@ -89,7 +89,7 @@ class LinkList extends React.Component {
     const links = this.linkList.querySelectorAll('a');
     for (let i = 0; i < links.length; i++) {
       const clone = links[i].cloneNode(true);
-      delete(clone.dataset.reactid);
+      delete (clone.dataset.reactid);
       tmp.appendChild(clone);
       tmp.appendChild(document.createElement('br'));
     }
@@ -107,7 +107,7 @@ class LinkList extends React.Component {
   };
 
   filterChanged = (event) => {
-    this.setState({nextFilter: event.target.value}, this.applyFilter);
+    this.setState({ nextFilter: event.target.value }, this.applyFilter);
   };
 
   toggleBlockedLinks = () => {
@@ -156,7 +156,7 @@ class LinkList extends React.Component {
         'LinkListItem--duplicate': duplicates[index],
       });
       memo.push(
-        <li className={itemClassName} key={index}>
+        <li key={index} className={itemClassName}>
           <a href={link.href}>{link.href}</a>
         </li>
       );
@@ -168,25 +168,19 @@ class LinkList extends React.Component {
         <div className="clearfix">
           <div className="form-inline LinkPageOptionsForm">
             <div className="form-group">
-              <div >
-                <label className="checkbox-inline">
-                  <input type="checkbox" checked={this.state.showDuplicates} onChange={this.toggleDedup} /> Show duplicate links
-                </label>
-              </div>
+              <label className="checkbox-inline">
+                <input type="checkbox" checked={this.state.showDuplicates} onChange={this.toggleDedup} /> Show duplicate links
+              </label>
             </div>
             <div className="form-group">
-              <div >
-                <label className="checkbox-inline">
-                  <input type="checkbox" checked={this.state.showBlockedDomains} onChange={this.toggleBlockedLinks} /> Show blocked links
-                </label>
-              </div>
+              <label className="checkbox-inline">
+                <input type="checkbox" checked={this.state.showBlockedDomains} onChange={this.toggleBlockedLinks} /> Show blocked links
+              </label>
             </div>
             <div className="form-group">
-              <div>
-                <label className="checkbox-inline">
-                  <input type="checkbox" checked={this.state.groupByDomain} onChange={this.toggleGroupByDomain} /> Group by domain
-                </label>
-              </div>
+              <label className="checkbox-inline">
+                <input type="checkbox" checked={this.state.groupByDomain} onChange={this.toggleGroupByDomain} /> Group by domain
+              </label>
             </div>
             <div className="form-group">
               <input type="text" className="form-control" placeholder="substring filter" autoFocus value={this.state.nextFilter} onChange={this.filterChanged} />
