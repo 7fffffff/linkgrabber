@@ -1,27 +1,30 @@
 {
-  "name" : "Link Grabber",
+  "name": "Link Grabber",
   "manifest_version": 2,
-  "version" : "0.4.1",
-  "description" : "Extracts hyperlinks from an HTML page",
-  "permissions" : [ "activeTab", "clipboardWrite", "contextMenus", "storage"],
+  "version": "0.5.0",
+  "description": "An easy to use extractor or grabber for links on an HTML page",
+  "permissions": [
+    "activeTab",
+    "clipboardWrite",
+    "contextMenus",
+    "storage"
+  ],
   "incognito": "split",
-
   "options_page": "/html/options.html",
-
-  "icons" : {
-    "16" : "/images/link_go_16.png",
-    "32" : "/images/link_go_32.png",
-    "48" : "/images/link_go_48.png",
+  "icons": {
+    "16": "/images/link_go_16.png",
+    "32": "/images/link_go_32.png",
+    "48": "/images/link_go_48.png",
     "128": "/images/link_go_128.png"
   },
-
-  "background" : {
-    "scripts" : [ "/js/background.js" ],
-    "persistent" : false
+  "background": {
+    "scripts": [
+      "/js/background.js"
+    ],
+    "persistent": false
   },
-
   "browser_action": {
-    "default_icon" : "/images/link_go_19.png",
-    "default_title" : "Extract the links on this page"
+    "default_icon": "/images/link_go_19.png",
+    "default_title": "Extract the links on this page"
   }
 }
