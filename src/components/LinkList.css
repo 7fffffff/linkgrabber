@@ -52,3 +52,7 @@
     margin-left: 0;
   }
 }
+
+.LinkPageOptionsForm .checkbox-inline {
+  user-select: none;
+}
