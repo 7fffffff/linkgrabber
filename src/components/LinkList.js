@@ -182,7 +182,7 @@ class LinkList extends React.Component {
       });
       memo.push(
         <li key={index} className={itemClassName}>
-          <a href={link.href}>{link.href}</a>
+          <a href={link.href} target="_blank">{link.href}</a>
         </li>
       );
       return memo;
