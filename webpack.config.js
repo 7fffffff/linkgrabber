@@ -7,6 +7,7 @@ var config = {
     contentscript: './src/contentscript.js',
     links: './src/links.js',
     options: './src/options.js',
+    preamble: './src/preamble.js',
   },
   output: {
     path: path.resolve('./js/'),
@@ -45,6 +46,10 @@ var config = {
   plugins: [
     new webpack.EnvironmentPlugin('NODE_ENV'),
     new webpack.optimize.ModuleConcatenationPlugin(),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'preamble',
+      chunks: ['links', 'options'],
+    }),
   ],
 };
 
