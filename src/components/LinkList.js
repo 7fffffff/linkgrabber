@@ -94,6 +94,15 @@ class LinkList extends React.Component {
     this.applyFilter = debounce(this.applyFilter, 100, { trailing: true });
   }
 
+  componentDidMount() {
+    window.document.addEventListener('copy', event => {
+      const selection = window.getSelection();
+      if (selection.type === 'None' || selection.type === 'Caret') {
+        this.copyLinks();
+      }
+    });
+  }
+
   applyFilter = () => {
     this.setState({ filter: this.state.nextFilter });
   };
