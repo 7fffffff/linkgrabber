@@ -14,7 +14,7 @@ class Options extends React.Component {
     }
     const blockedDomains = this.props.blockedDomains.slice(0);
     blockedDomains.push(val);
-    this.setState({newBlockedDomain: ''});
+    this.setState({ newBlockedDomain: '' });
     this.props.setBlockedDomains(blockedDomains);
   };
 
@@ -51,7 +51,7 @@ class Options extends React.Component {
         <div className="row">
           <div className="col-sm-6">
             <h2>Blocked Domains</h2>
-            <p>Links from blocked domains will not be shown.</p>
+            <p>Links from blocked domains will be hidden by default.</p>
             <table className="table table-striped">
               <thead>
                 <tr>
