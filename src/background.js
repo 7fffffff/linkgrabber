@@ -25,14 +25,14 @@ chrome.runtime.onInstalled.addListener(() => {
   }, warnLastError);
 });
 
-chrome.browserAction.onClicked.addListener(function(tab) {
-  chrome.tabs.executeScript(null, {
+chrome.browserAction.onClicked.addListener(function (tab) {
+  chrome.tabs.executeScript(tab.id, {
     file: 'js/contentscript.js',
   });
 });
 
 chrome.contextMenus.onClicked.addListener(function (info, tab) {
-  chrome.tabs.executeScript(null, {
+  chrome.tabs.executeScript(tab.id, {
     file: 'js/contentscript.js',
   });
 });
@@ -41,7 +41,7 @@ chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
   delete tabData[tabId];
 });
 
-chrome.extension.onMessage.addListener(function(links, sender, sendResponse) {
+chrome.extension.onMessage.addListener(function (links, sender, sendResponse) {
   const tab = sender.tab;
   chrome.tabs.create({
     index: tab.index + 1,
