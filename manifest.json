@@ -1,7 +1,7 @@
 {
   "name": "Link Grabber",
   "manifest_version": 2,
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "An easy to use extractor or grabber for hyperlinks on an HTML page",
   "permissions": [
     "activeTab",
