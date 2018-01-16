@@ -2,8 +2,8 @@
   "dependencies": {
     "classnames": "~2.2.5",
     "lodash.debounce": "~4.0.8",
-    "react": "~16.1.0",
-    "react-dom": "~16.1.0"
+    "react": "~16.2.0",
+    "react-dom": "~16.2.0"
   },
   "devDependencies": {
     "babel-core": "~6.26.0",
