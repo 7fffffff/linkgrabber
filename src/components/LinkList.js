@@ -81,6 +81,8 @@ function hideSameHost(links, sourceUrl) {
 }
 
 class LinkList extends React.Component {
+  linkList = React.createRef();
+
   state = {
     filter: '',
     groupByDomain: false,
@@ -89,10 +91,6 @@ class LinkList extends React.Component {
     showDuplicates: false,
     showBlockedDomains: false,
   };
-
-  componentWillMount() {
-    this.applyFilter = debounce(this.applyFilter, 100, { trailing: true });
-  }
 
   componentDidMount() {
     window.document.addEventListener('copy', event => {
@@ -103,15 +101,15 @@ class LinkList extends React.Component {
     });
   }
 
-  applyFilter = () => {
+  applyFilter = debounce(() => {
     this.setState({ filter: this.state.nextFilter });
-  };
+  }, 100, { trailing: true });
 
   copyLinks = (event) => {
     const selection = window.getSelection();
     const prevRange = selection.rangeCount ? selection.getRangeAt(0).cloneRange() : null;
     const tmp = document.createElement('div');
-    const links = this.linkList.querySelectorAll('a');
+    const links = this.linkList.current.querySelectorAll('a');
     for (let i = 0; i < links.length; i++) {
       const clone = links[i].cloneNode(true);
       delete (clone.dataset.reactid);
@@ -231,7 +229,7 @@ class LinkList extends React.Component {
             </div>
           </div>
         </div>
-        <ul ref={n => this.linkList = n} className="LinkList">
+        <ul ref={this.linkList} className="LinkList">
           {items}
         </ul>
       </div>
