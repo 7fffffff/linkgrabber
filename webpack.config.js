@@ -2,12 +2,12 @@ var path = require('path');
 var webpack = require('webpack');
 
 var config = {
+  mode: process.env.NODE_ENV || "development",
   entry: {
     background: './src/background.js',
     contentscript: './src/contentscript.js',
     links: './src/links.js',
     options: './src/options.js',
-    preamble: './src/preamble.js',
   },
   output: {
     path: path.resolve('./js/'),
@@ -28,10 +28,6 @@ var config = {
         use: [
           {
             loader: 'babel-loader',
-            options: {
-              presets: ['es2015', 'es2016', 'react'],
-              plugins: ['transform-class-properties', 'transform-react-constant-elements', 'transform-react-inline-elements'],
-            },
           }
         ],
       },
@@ -43,24 +39,21 @@ var config = {
   externals: {
     'chrome': 'chrome',
   },
-  plugins: [
-    new webpack.EnvironmentPlugin('NODE_ENV'),
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'preamble',
-      chunks: ['links', 'options'],
-    }),
-  ],
+  optimization: {
+    minimize: false,
+    runtimeChunk: false,
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          name: 'preamble',
+          test: /[\\/]node_modules[\\/]/,
+          chunks: 'all',
+          enforce: true,
+        },
+      },
+    },
+  },
+  devtool: 'cheap-module-source-map',
 };
-
-if (process.env.NODE_ENV === 'production') {
-  config.plugins.push(new webpack.optimize.UglifyJsPlugin({
-    beautify: true,
-    compress: true,
-    mangle: false
-  }));
-} else {
-  config.devtool = 'cheap-module-source-map';
-}
 
 module.exports = config;
