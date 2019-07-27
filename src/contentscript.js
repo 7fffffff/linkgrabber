@@ -9,6 +9,7 @@ import chrome from 'chrome';
       host: elements[i].host,
       hostname: elements[i].hostname,
       href: elements[i].href,
+      origin: elements[i].origin,
       pathname: elements[i].pathname,
       search: elements[i].search,
       text: elements[i].text,

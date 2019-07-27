@@ -65,7 +65,7 @@ function groupByDomain(links) {
   return mapped.map(v => links[v.index]);
 }
 
-function hideSameHost(links, sourceUrl) {
+function hideSameOrigin(links, sourceUrl) {
   if (!sourceUrl) {
     return links;
   }
@@ -74,10 +74,10 @@ function hideSameHost(links, sourceUrl) {
   }
   const parser = document.createElement('a');
   parser.href = sourceUrl;
-  if (!parser.hostname) {
+  if (!parser.origin) {
     return links;
   }
-  return links.filter(link => link.hostname !== parser.hostname);
+  return links.filter(link => link.origin !== parser.origin);
 }
 
 class LinkList extends React.Component {
@@ -86,7 +86,7 @@ class LinkList extends React.Component {
   state = {
     filter: '',
     groupByDomain: false,
-    hideSameHost: false,
+    hideSameOrigin: false,
     nextFilter: '',
     showDuplicates: false,
     showBlockedDomains: false,
@@ -151,9 +151,9 @@ class LinkList extends React.Component {
     });
   };
 
-  toggleHideSameHost = () => {
+  toggleHideSameOrigin = () => {
     this.setState({
-      hideSameHost: !this.state.hideSameHost,
+      hideSameOrigin: !this.state.hideSameOrigin,
     });
   }
 
@@ -165,8 +165,8 @@ class LinkList extends React.Component {
     if (links.length === 0) {
       return (<LinkListEmpty source={this.props.source} />);
     }
-    if (this.state.hideSameHost) {
-      links = hideSameHost(links, this.props.source);
+    if (this.state.hideSameOrigin) {
+      links = hideSameOrigin(links, this.props.source);
     }
     if (this.state.groupByDomain) {
       links = groupByDomain(links);
@@ -216,7 +216,7 @@ class LinkList extends React.Component {
             </div>
             <div className="form-group">
               <label className="checkbox-inline">
-                <input type="checkbox" checked={this.state.hideSameHost} onChange={this.toggleHideSameHost} /> Hide same hostname
+                <input type="checkbox" checked={this.state.hideSameOrigin} onChange={this.toggleHideSameOrigin} /> Hide same origin
               </label>
             </div>
             <div className="form-group">
