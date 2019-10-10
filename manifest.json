@@ -9,7 +9,7 @@
     "contextMenus",
     "storage"
   ],
-  "incognito": "split",
+  "incognito": "spanning",
   "options_page": "/html/options.html",
   "icons": {
     "16": "/images/link_go_16.png",
