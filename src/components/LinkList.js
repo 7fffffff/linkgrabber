@@ -203,18 +203,12 @@ class LinkList extends React.Component {
               <label className="checkbox-inline">
                 <input type="checkbox" checked={this.state.showDuplicates} onChange={this.toggleDedup} /> Show duplicate links
               </label>
-            </div>
-            <div className="form-group">
               <label className="checkbox-inline">
                 <input type="checkbox" checked={this.state.showBlockedDomains} onChange={this.toggleBlockedLinks} /> Show blocked links
               </label>
-            </div>
-            <div className="form-group">
               <label className="checkbox-inline">
                 <input type="checkbox" checked={this.state.groupByDomain} onChange={this.toggleGroupByDomain} /> Group by domain
               </label>
-            </div>
-            <div className="form-group">
               <label className="checkbox-inline">
                 <input type="checkbox" checked={this.state.hideSameOrigin} onChange={this.toggleHideSameOrigin} /> Hide same origin
               </label>
