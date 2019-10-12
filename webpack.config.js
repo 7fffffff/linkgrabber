@@ -3,11 +3,12 @@ var webpack = require('webpack');
 
 var config = {
   mode: process.env.NODE_ENV || "development",
+  context: path.resolve('./src/'),
   entry: {
-    background: './src/background.js',
-    contentscript: './src/contentscript.js',
-    links: './src/links.js',
-    options: './src/options.js',
+    background: './background.js',
+    contentscript: './contentscript.js',
+    links: './links.js',
+    options: './options.js',
   },
   output: {
     path: path.resolve('./js/'),
