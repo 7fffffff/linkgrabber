@@ -1,6 +1,6 @@
 import chrome from 'chrome';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import Options from './components/Options';
 
 function setBlockedDomains (domains) {
@@ -8,11 +8,12 @@ function setBlockedDomains (domains) {
 }
 
 function render(storage) {
-  ReactDOM.render(
+  const root = createRoot(document.getElementById('Options'));
+  root.render(
     <Options
       blockedDomains={storage.blockedDomains}
       setBlockedDomains={setBlockedDomains} />
-    , document.getElementById('Options'));
+  );
 }
 
 let stored = {};

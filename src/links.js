@@ -1,9 +1,10 @@
 import chrome from 'chrome';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import LinkList from './components/LinkList';
 
 const target = document.getElementById('LinkList');
+const root = createRoot(target);
 
 function domainPattern(domains) {
   // ['foo.com', 'bar.com']
@@ -22,18 +23,18 @@ chrome.tabs.query({active: true, windowId: chrome.windows.WINDOW_ID_CURRENT}, ta
   chrome.storage.sync.get(null, options => {
     chrome.runtime.getBackgroundPage(page => {
       var data = page.tabData[tabs[0].id];
-      if (data) {
-        document.title = 'Extracted Links for ' + data.source;
-        ReactDOM.render(
-          <LinkList
-            blockPattern={domainPattern(options.blockedDomains)}
-            expired={false}
-            links={data.links}
-            source={data.source} />
-        , target);
-      } else {
-        ReactDOM.render(<LinkList expired={true} />, target);
+      if (!data) {
+        root.render(<LinkList expired={true} />);
+        return;
       }
+      document.title = 'Extracted Links for ' + data.source;
+      root.render(
+        <LinkList
+          blockPattern={domainPattern(options.blockedDomains)}
+          expired={false}
+          links={data.links}
+          source={data.source} />
+      );
     });
   });
 });
