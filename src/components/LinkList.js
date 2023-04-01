@@ -86,10 +86,10 @@ class LinkList extends React.Component {
   state = {
     filter: '',
     groupByDomain: false,
+    hideBlockedDomains: true,
+    hideDuplicates: true,
     hideSameOrigin: false,
     nextFilter: '',
-    showDuplicates: false,
-    showBlockedDomains: false,
   };
 
   componentDidMount() {
@@ -135,13 +135,13 @@ class LinkList extends React.Component {
 
   toggleBlockedLinks = () => {
     this.setState({
-      showBlockedDomains: !this.state.showBlockedDomains,
+      hideBlockedDomains: !this.state.hideBlockedDomains,
     });
   };
 
   toggleDedup = () => {
     this.setState({
-      showDuplicates: !this.state.showDuplicates,
+      hideDuplicates: !this.state.hideDuplicates,
     });
   };
 
@@ -155,7 +155,7 @@ class LinkList extends React.Component {
     this.setState({
       hideSameOrigin: !this.state.hideSameOrigin,
     });
-  }
+  };
 
   render() {
     if (this.props.expired) {
@@ -177,10 +177,10 @@ class LinkList extends React.Component {
     const blocked = findBlockedLinks(links, this.props.blockPattern);
     const duplicates = findDuplicates(links);
     const items = links.reduce((memo, link, index) => {
-      if (!this.state.showDuplicates && duplicates[index]) {
+      if (this.state.hideDuplicates && duplicates[index]) {
         return memo;
       }
-      if (!this.state.showBlockedDomains && blocked[index]) {
+      if (this.state.hideBlockedDomains && blocked[index]) {
         return memo;
       }
       const itemClassName = cx('LinkListItem', {
@@ -201,16 +201,16 @@ class LinkList extends React.Component {
           <div className="form-inline LinkPageOptionsForm">
             <div className="form-group">
               <label className="checkbox-inline">
-                <input type="checkbox" checked={this.state.showDuplicates} onChange={this.toggleDedup} /> Show duplicate links
+                <input type="checkbox" checked={this.state.hideDuplicates} onChange={this.toggleDedup} /> Hide duplicate links
               </label>
               <label className="checkbox-inline">
-                <input type="checkbox" checked={this.state.showBlockedDomains} onChange={this.toggleBlockedLinks} /> Show blocked links
-              </label>
-              <label className="checkbox-inline">
-                <input type="checkbox" checked={this.state.groupByDomain} onChange={this.toggleGroupByDomain} /> Group by domain
+                <input type="checkbox" checked={this.state.hideBlockedDomains} onChange={this.toggleBlockedLinks} /> Hide blocked links
               </label>
               <label className="checkbox-inline">
                 <input type="checkbox" checked={this.state.hideSameOrigin} onChange={this.toggleHideSameOrigin} /> Hide same origin
+              </label>
+              <label className="checkbox-inline">
+                <input type="checkbox" checked={this.state.groupByDomain} onChange={this.toggleGroupByDomain} /> Group by domain
               </label>
             </div>
             <div className="form-group">
