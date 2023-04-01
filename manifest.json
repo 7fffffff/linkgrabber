@@ -11,8 +11,7 @@
   ],
   "incognito": "spanning",
   "options_ui": {
-    "browser_style": true,
-    "chrome_style": true,
+    "browser_style": false,
     "page": "/html/options.html"
   },
   "icons": {
