@@ -15,5 +15,5 @@ import chrome from 'chrome';
       text: elements[i].text,
     };
   }
-  chrome.runtime.sendMessage(links);
+  chrome.runtime.sendMessage({links});
 })();

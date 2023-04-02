@@ -1,5 +1,4 @@
 import chrome from 'chrome';
-import React from 'react';
 import {createRoot} from 'react-dom/client';
 import LinkList from './components/LinkList';
 
@@ -20,7 +19,7 @@ function domainPattern(domains) {
 }
 
 chrome.tabs.query({active: true, windowId: chrome.windows.WINDOW_ID_CURRENT}, tabs => {
-  chrome.storage.sync.get(null, options => {
+  chrome.storage.sync.get(null, ({blockedDomains}) => {
     chrome.runtime.getBackgroundPage(page => {
       var data = page.tabData[tabs[0].id];
       if (!data) {
@@ -30,7 +29,7 @@ chrome.tabs.query({active: true, windowId: chrome.windows.WINDOW_ID_CURRENT}, ta
       document.title = 'Extracted Links for ' + data.source;
       root.render(
         <LinkList
-          blockPattern={domainPattern(options.blockedDomains)}
+          blockPattern={domainPattern(blockedDomains)}
           expired={false}
           links={data.links}
           source={data.source} />

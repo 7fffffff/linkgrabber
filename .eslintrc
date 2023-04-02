@@ -1,4 +1,9 @@
 {
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "parser": "@babel/eslint-parser",
   "plugins": [
     "react"
