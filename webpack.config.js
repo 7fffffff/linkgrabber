@@ -37,9 +37,6 @@ var config = {
   resolve: {
     extensions: ['.js', '.jsx']
   },
-  externals: {
-    'chrome': 'chrome',
-  },
   optimization: {
     minimize: false,
     runtimeChunk: false,

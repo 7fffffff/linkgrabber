@@ -1,5 +1,3 @@
-import chrome from 'chrome';
-
 (function () {
   const elements = document.querySelectorAll('a:link:not([href^=javascript])');
   const links = new Array(elements.length);

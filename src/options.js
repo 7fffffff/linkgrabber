@@ -1,4 +1,3 @@
-import chrome from 'chrome';
 import {createRoot} from 'react-dom/client';
 import Options from './components/Options';
 

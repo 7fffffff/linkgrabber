@@ -1,4 +1,3 @@
-import chrome from 'chrome';
 import {createRoot} from 'react-dom/client';
 import LinkList from './components/LinkList';
 

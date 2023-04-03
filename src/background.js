@@ -1,5 +1,3 @@
-import chrome from 'chrome';
-
 const DEFAULT_SETTINGS = {
   blockedDomains: ['bad.example.com'],
 };
@@ -41,13 +39,12 @@ chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
   delete tabData[tabId];
 });
 
-
-chrome.extension.onMessage.addListener(({links}, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener(({links}, sender, sendResponse) => {
   const tab = sender.tab;
   chrome.tabs.create({
     index: tab.index + 1,
     openerTabId: tab.id,
-    url: chrome.extension.getURL('html/links.html'),
+    url: chrome.runtime.getURL('html/links.html'),
   }, (newTab) => {
     tabData[newTab.id] = {
       source: tab.url,

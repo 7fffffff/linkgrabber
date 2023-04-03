@@ -12,6 +12,9 @@
     "browser": true,
     "node": true
   },
+  "globals": {
+    "chrome": true,
+  },
   "extends": "eslint:recommended",
   "rules": {
     "comma-dangle": [1, "always-multiline"],

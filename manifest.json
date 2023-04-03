@@ -29,5 +29,10 @@
   "browser_action": {
     "default_icon": "/images/link_go_19.png",
     "default_title": "Extract the links on this page"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "linkgrabber@7fffffff.com"
+    }
   }
 }
