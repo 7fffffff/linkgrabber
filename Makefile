@@ -1,16 +1,21 @@
+.PHONY: watch
 watch: clean
-	NODE_ENV=development `npm bin`/webpack -w
+	npm run watch
 
+.PHONY: package
 package: build
 	mkdir -p dist
 	zip -x\*.DS_Store dist/linkgrabber.zip -r css html images js vendor manifest.json
 
+.PHONY: build
 build: clean
-	NODE_ENV=production `npm bin`/webpack
+	npm run build
 
+.PHONY: lint
 lint:
-	node_modules/.bin/eslint src
+	npm exec eslint src
 
+.PHONY: clean
 clean:
 	rm -rf js
 	rm -rf dist

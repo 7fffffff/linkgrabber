@@ -1,3 +1,4 @@
+import React from 'react';
 import {useEffect, useRef, useState} from 'react';
 import cx from 'classnames';
 import debounce from 'lodash.debounce';
