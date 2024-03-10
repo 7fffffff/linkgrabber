@@ -1,5 +1,5 @@
 const DEFAULT_SETTINGS = {
-  blockedDomains: ['bad.example.com'],
+  blockedDomains: ['bad1.example.com', 'bad2.example.com', 'bad4.example.com'],
 };
 
 const tabData = {};

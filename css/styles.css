@@ -20,3 +20,19 @@ a:visited {
 .table tbody > tr > td.txtM {
   vertical-align: middle;
 }
+
+.d-flex {
+  display: flex;
+}
+
+.flex-grow-0 {
+  flex-grow: 0;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+.align-items-center {
+  align-items: center;
+}

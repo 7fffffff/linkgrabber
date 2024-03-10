@@ -2,12 +2,21 @@ import React from 'react';
 import {createRoot} from 'react-dom/client';
 import Options from './components/Options';
 
-function setBlockedDomains (domains) {
-  chrome.storage.sync.set({blockedDomains: domains});
+function setBlockedDomains(domains) {
+  const next = [];
+  for (let domain of domains) {
+    domain = domain.trim();
+    if (!domain) {
+      continue;
+    }
+    next.push(domain);
+  }
+  chrome.storage.sync.set({blockedDomains: next});
 }
 
+const root = createRoot(document.getElementById('Options'));
+
 function render(storage) {
-  const root = createRoot(document.getElementById('Options'));
   root.render(
     <Options
       blockedDomains={storage.blockedDomains}

@@ -30,47 +30,12 @@ function copyLinks(element) {
   }
 }
 
-function filterLinks(links, s) {
-  const lowerS = s.toLowerCase();
-  return links.reduce((memo, link) => {
-    const lowerHref = link.href.toLowerCase();
-    if (lowerHref.indexOf(lowerS) >= 0) {
-      memo.push(link);
-    }
-    return memo;
-  }, []);
-}
-
-function findBlockedLinks(links, pattern) {
-  return links.reduce((acc, link) => {
-    if (pattern && pattern.exec(link.hostname)) {
-      acc.push(true);
-    } else {
-      acc.push(false);
-    }
-    return acc;
-  }, []);
-}
-
-function findDuplicates(links) {
-  const uniq = {};
-  return links.reduce((memo, link) => {
-    if (!uniq[link.href]) {
-      memo.push(false);
-      uniq[link.href] = true;
-    } else {
-      memo.push(true);
-    }
-    return memo;
-  }, []);
-}
-
 function groupLinksByDomain(links) {
   const indexes = new Array(links.length);
   const rh = new Array(links.length);
-  for (let i=0; i < links.length; i++) {
+  for (let i = 0; i < links.length; i++) {
     indexes[i] = i;
-    rh[i] = links[i].hostname.split('.').reverse().join('.');
+    rh[i] = links[i].hostname.toLowerCase().split('.').reverse().join('.');
   }
   indexes.sort((i, j) => {
     if (rh[i] < rh[j]) {
@@ -82,6 +47,40 @@ function groupLinksByDomain(links) {
     return i - j;
   });
   return indexes.map(i => links[i]);
+}
+
+function mapBlocked(links, blockedDomains) {
+  blockedDomains = new Set(blockedDomains);
+  return links.map(link => {
+    let hostname = link.hostname.toLowerCase();
+    const dots = [];
+    for (let i = 0; i < hostname.length; i++) {
+      if (hostname[i] === '.') {
+        dots.push(i);
+      }
+    }
+    if (blockedDomains.has(hostname)) {
+      return true;
+    }
+    for (const dot of dots) {
+      if (blockedDomains.has(hostname.substr(dot + 1))) {
+        blockedDomains.add(hostname);
+        return true;
+      }
+    }
+    return false;
+  });
+}
+
+function mapDuplicates(links) {
+  const uniq = new Set();
+  return links.map(link => {
+    if (uniq.has(link.href)) {
+      return true;
+    }
+    uniq.add(link.href);
+    return false;
+  });
 }
 
 function rejectSameOrigin(links, sourceUrl) {
@@ -146,18 +145,22 @@ export default function LinkList(props) {
   if (groupByDomain) {
     links = groupLinksByDomain(links);
   }
-  if (filter) {
-    links = filterLinks(links, filter);
-  }
 
-  const blocked = findBlockedLinks(links, props.blockPattern);
-  const duplicates = findDuplicates(links);
+  const blocked = mapBlocked(links, props.blockedDomains);
+  const duplicates = mapDuplicates(links);
+  const filterLowerCase = filter.trim().toLowerCase();
   const items = links.reduce((memo, link, index) => {
     if (hideDuplicates && duplicates[index]) {
       return memo;
     }
     if (hideBlockedDomains && blocked[index]) {
       return memo;
+    }
+    if (filterLowerCase) {
+      const lowerHref = link.href.toLowerCase();
+      if (lowerHref.indexOf(filterLowerCase) < 0) {
+        return memo;
+      }
     }
     const itemClassName = cx('LinkListItem', {
       'LinkListItem--blocked': blocked[index],

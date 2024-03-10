@@ -5,17 +5,16 @@ import LinkList from './components/LinkList';
 const target = document.getElementById('LinkList');
 const root = createRoot(target);
 
-function domainPattern(domains) {
-  // ['foo.com', 'bar.com']
-  // /^(?:[\w-]+\.)*(?:foo\.com|bar\.com)+$/i
-  if (!domains || domains.length <= 0) {
-    return new RegExp('(?!x)x'); // a regex that matches nothing
+function blockedDomainsSet(blockedDomains) {
+  const set = new Set();
+  for (let domain of blockedDomains) {
+    domain = domain.trim().toLowerCase();
+    if (!domain || domain[0] == '#') {
+      continue;
+    }
+    set.add(domain);
   }
-  for (let i = 0; i < domains.length; i++) {
-    domains[i] = domains[i].replace(/\./g, '\\.');
-  }
-  const s = '^(?:[\\w-]+\\.)*(?:' + domains.join('|') + ')+$';
-  return new RegExp(s, 'i');
+  return set;
 }
 
 chrome.tabs.query({active: true, windowId: chrome.windows.WINDOW_ID_CURRENT}, tabs => {
@@ -29,7 +28,7 @@ chrome.tabs.query({active: true, windowId: chrome.windows.WINDOW_ID_CURRENT}, ta
       document.title = 'Extracted Links for ' + data.source;
       root.render(
         <LinkList
-          blockPattern={domainPattern(blockedDomains)}
+          blockedDomains={blockedDomainsSet(blockedDomains)}
           expired={false}
           links={data.links}
           source={data.source} />
