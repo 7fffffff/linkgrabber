@@ -1,12 +1,13 @@
 {
   "name": "Link Grabber",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "version": "0.5.2",
   "description": "An easy to use extractor or grabber for hyperlinks on an HTML page",
   "permissions": [
     "activeTab",
     "clipboardWrite",
     "contextMenus",
+    "scripting",
     "storage"
   ],
   "incognito": "spanning",
@@ -21,12 +22,9 @@
     "128": "/images/link_go_128.png"
   },
   "background": {
-    "scripts": [
-      "/js/background.js"
-    ],
-    "persistent": false
+    "service_worker": "/js/service_worker.js"
   },
-  "browser_action": {
+  "action": {
     "default_icon": "/images/link_go_19.png",
     "default_title": "Extract the links on this page"
   },

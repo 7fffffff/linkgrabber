@@ -13,5 +13,5 @@
       text: elements[i].text,
     };
   }
-  chrome.runtime.sendMessage({links});
+  chrome.runtime.sendMessage(null, {type: 'links-found', links: links});
 })();

@@ -17,22 +17,21 @@ function blockedDomainsSet(blockedDomains) {
   return set;
 }
 
-chrome.tabs.query({active: true, windowId: chrome.windows.WINDOW_ID_CURRENT}, tabs => {
-  chrome.storage.sync.get(null, ({blockedDomains}) => {
-    chrome.runtime.getBackgroundPage(page => {
-      var data = page.tabData[tabs[0].id];
-      if (!data) {
-        root.render(<LinkList expired={true} />);
-        return;
-      }
-      document.title = 'Extracted Links for ' + data.source;
-      root.render(
-        <LinkList
-          blockedDomains={blockedDomainsSet(blockedDomains)}
-          expired={false}
-          links={data.links}
-          source={data.source} />
-      );
-    });
-  });
-});
+(async function() {
+  const queryParams = new URLSearchParams(window.location.search);
+  const session = await chrome.storage.session.get('tabData');
+  const data = session?.tabData[queryParams.get('tab_id')];
+  if (!data) {
+    root.render(<LinkList expired={true} />);
+    return;
+  }
+  const {blockedDomains} = await chrome.storage.sync.get(['blockedDomains']);
+  document.title = 'Extracted Links for ' + data.source;
+  root.render(
+    <LinkList
+      blockedDomains={blockedDomainsSet(blockedDomains)}
+      expired={false}
+      links={data.links}
+      source={data.source} />
+  );
+})();
