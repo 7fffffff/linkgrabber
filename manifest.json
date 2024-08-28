@@ -10,7 +10,7 @@
     "scripting",
     "storage"
   ],
-  "incognito": "spanning",
+  "incognito": "split",
   "options_ui": {
     "browser_style": false,
     "page": "/html/options.html"
