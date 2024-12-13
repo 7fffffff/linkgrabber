@@ -160,7 +160,8 @@ export default function LinkList(props) {
     }
     if (filterLowerCase) {
       const lowerHref = link.href.toLowerCase();
-      const matchesFilter = lowerHref.indexOf(filterLowerCase) >= 0;
+      const keywords = filterLowerCase.split(',').map(k => k.trim()).filter(k => k.length > 0);
+      const matchesFilter = keywords.some(keyword => lowerHref.indexOf(keyword) >= 0);
       if (reverseFilter ? matchesFilter : !matchesFilter) {
         return memo;
       }
