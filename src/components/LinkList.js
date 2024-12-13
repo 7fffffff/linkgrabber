@@ -107,6 +107,7 @@ export default function LinkList(props) {
   const [hideBlockedDomains, setHideBlockedDomains] = useState(true);
   const [hideDuplicates, setHideDuplicates] = useState(true);
   const [hideSameOrigin, setHideSameOrigin] = useState(false);
+  const [reverseFilter, setReverseFilter] = useState(false);
 
   const applyFilter = debounce(() => setFilter(nextFilter), 100, {trailing: true});
   const filterChanged = (event) => setNextFilter(event.target.value);
@@ -114,6 +115,7 @@ export default function LinkList(props) {
   const toggleDedup = () => setHideDuplicates(x => !x);
   const toggleGroupByDomain = () => setGroupByDomain(x => !x);
   const toggleHideSameOrigin = () => setHideSameOrigin(x => !x);
+  const toggleReverseFilter = () => setReverseFilter(x => !x);
 
   useEffect(() => {
     const h = (event) => {
@@ -158,7 +160,8 @@ export default function LinkList(props) {
     }
     if (filterLowerCase) {
       const lowerHref = link.href.toLowerCase();
-      if (lowerHref.indexOf(filterLowerCase) < 0) {
+      const matchesFilter = lowerHref.indexOf(filterLowerCase) >= 0;
+      if (reverseFilter ? matchesFilter : !matchesFilter) {
         return memo;
       }
     }
@@ -191,6 +194,9 @@ export default function LinkList(props) {
             </label>
             <label className="checkbox-inline">
               <input type="checkbox" checked={groupByDomain} onChange={toggleGroupByDomain} /> Group by domain
+            </label>
+            <label className="checkbox-inline">
+              <input type="checkbox" checked={reverseFilter} onChange={toggleReverseFilter} /> Remove filter matches
             </label>
           </div>
           <div className="form-group">
