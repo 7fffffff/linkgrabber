@@ -98,61 +98,18 @@ function rejectSameOrigin(links, sourceUrl) {
   return links.filter(link => link.origin !== parser.origin);
 }
 
-function parseKeywords(input) {
-  const keywords = [];
-  let currentWord = '';
-  let inQuotes = false;
-  
-  for (let i = 0; i < input.length; i++) {
-    const char = input[i];
-    
-    if (char === '"') {
-      if (inQuotes) {
-        if (currentWord) {
-          keywords.push(currentWord.toLowerCase());
-          currentWord = '';
-        }
-      }
-      inQuotes = !inQuotes;
-    } else if (char === ',' && !inQuotes) {
-      if (currentWord) {
-        keywords.push(currentWord.toLowerCase());
-        currentWord = '';
-      }
-    } else if (!inQuotes && char === ' ') {
-      continue;
-    } else {
-      currentWord += char;
-    }
-  }
-  
-  if (currentWord) {
-    keywords.push(currentWord.toLowerCase());
-  }
-  
-  return keywords.filter(k => k);
-}
-
 export default function LinkList(props) {
   const linkListRef = useRef(null);
 
   const [filter, setFilter] = useState('');
   const [nextFilter, setNextFilter] = useState('');
-  const [excludeFilter, setExcludeFilter] = useState('');
-  const [nextExcludeFilter, setNextExcludeFilter] = useState('');
   const [groupByDomain, setGroupByDomain] = useState(false);
   const [hideBlockedDomains, setHideBlockedDomains] = useState(true);
   const [hideDuplicates, setHideDuplicates] = useState(true);
   const [hideSameOrigin, setHideSameOrigin] = useState(false);
 
-  const applyFilter = debounce(() => {
-    setFilter(nextFilter);
-    setExcludeFilter(nextExcludeFilter);
-  }, 100, {trailing: true});
-  
+  const applyFilter = debounce(() => setFilter(nextFilter), 100, {trailing: true});
   const filterChanged = (event) => setNextFilter(event.target.value);
-  const excludeFilterChanged = (event) => setNextExcludeFilter(event.target.value);
-
   const toggleBlockedLinks = () => setHideBlockedDomains(x => !x);
   const toggleDedup = () => setHideDuplicates(x => !x);
   const toggleGroupByDomain = () => setGroupByDomain(x => !x);
@@ -191,9 +148,7 @@ export default function LinkList(props) {
 
   const blocked = mapBlocked(links, props.blockedDomains);
   const duplicates = mapDuplicates(links);
-  const includeKeywords = parseKeywords(filter);
-  const excludeKeywords = parseKeywords(excludeFilter);
-  
+  const filterLowerCase = filter.trim().toLowerCase();
   const items = links.reduce((memo, link, index) => {
     if (hideDuplicates && duplicates[index]) {
       return memo;
@@ -201,17 +156,12 @@ export default function LinkList(props) {
     if (hideBlockedDomains && blocked[index]) {
       return memo;
     }
-
-    const lowerHref = link.href.toLowerCase();
-
-    if (excludeKeywords.length > 0 && excludeKeywords.some(keyword => lowerHref.includes(keyword))) {
-      return memo;
+    if (filterLowerCase) {
+      const lowerHref = link.href.toLowerCase();
+      if (lowerHref.indexOf(filterLowerCase) < 0) {
+        return memo;
+      }
     }
-
-    if (includeKeywords.length > 0 && !includeKeywords.every(keyword => lowerHref.includes(keyword))) {
-      return memo;
-    }
-
     const itemClassName = cx('LinkListItem', {
       'LinkListItem--blocked': blocked[index],
       'LinkListItem--duplicate': duplicates[index],
@@ -244,23 +194,7 @@ export default function LinkList(props) {
             </label>
           </div>
           <div className="form-group">
-            <input 
-              type="text" 
-              className="form-control" 
-              placeholder='include keywords ("keyword1", "keyword2")' 
-              autoFocus 
-              value={nextFilter} 
-              onChange={filterChanged} 
-            />
-          </div>
-          <div className="form-group">
-            <input 
-              type="text" 
-              className="form-control" 
-              placeholder='exclude keywords ("keyword1", "keyword2")' 
-              value={nextExcludeFilter} 
-              onChange={excludeFilterChanged} 
-            />
+            <input type="text" className="form-control" placeholder="substring filter" autoFocus value={nextFilter} onChange={filterChanged} />
           </div>
           <div className="form-group LinkPageStatus">
             <button className="btn btn-default" disabled={items.length === 0} onClick={() => copyLinks(linkListRef.current)}>

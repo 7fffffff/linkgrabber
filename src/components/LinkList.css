@@ -56,15 +56,3 @@
 .LinkPageOptionsForm .checkbox-inline {
   user-select: none;
 }
-
-.LinkPageOptionsForm .form-control {
-  margin-right: 1em;
-}
-
-@media (max-width: 767px) {
-  .LinkPageOptionsForm .form-control {
-    margin-right: 0;
-    margin-bottom: 1em;
-    width: 100%;
-  }
-}
