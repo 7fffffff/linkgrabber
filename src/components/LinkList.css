@@ -1,58 +1,104 @@
-.LinkPageHeader {
+:root {
+  --border-color: #ddd;
+  --bg-alternate: #f5f5f5;
+  --link-blocked: #a94442;
+  --link-duplicate: #aaa;
+  --link-blocked-duplicate: #ebccd1;
+  --spacing-unit: 1em;
+  --mobile-breakpoint: 767px;
+  --text-color: #333;
+  --error-color: #a94442;
+}
+
+/* Page Layout */
+.LinkPage__header {
   white-space: nowrap;
   line-height: normal;
   overflow-x: hidden;
   text-overflow: ellipsis;
+  margin-bottom: var(--spacing-unit);
+  color: var(--text-color);
 }
 
-.LinkPageStatus {
+.LinkPage__message {
+  color: var(--text-color);
+  font-size: 1.1em;
+  margin: var(--spacing-unit) 0;
+  line-height: 1.5;
+}
+
+.LinkPage__message p {
+  margin-bottom: 0.5em;
+}
+
+.LinkPage__message p:last-child {
+  margin-bottom: 0;
+}
+
+/* Add specific style for expired message */
+.LinkPage__header:has(+ .LinkPage__message) {
+  color: var(--error-color);
+}
+
+/* Form Components */
+.LinkPage__form {
+  margin-bottom: var(--spacing-unit);
+}
+
+.LinkPage__form-group {
+  margin-bottom: var(--spacing-unit);
+}
+
+.LinkPage__form-group + .LinkPage__form-group {
+  margin-left: var(--spacing-unit);
+}
+
+.LinkPage__status {
   float: right;
 }
 
+.LinkPage__checkbox {
+  user-select: none;
+}
+
+/* Link List */
 .LinkList {
   list-style: none;
   padding-left: 0;
+  margin-top: var(--spacing-unit);
 }
 
-.LinkListItem {
-  border-bottom: 1px solid #ddd;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
+.LinkList__item {
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.5em var(--spacing-unit);
   word-wrap: break-word;
+  transition: background-color 0.2s ease;
 }
 
-.LinkListItem:nth-child(odd) {
-  background-color: #F5F5F5;
+.LinkList__item:nth-child(odd) {
+  background-color: var(--bg-alternate);
 }
 
-.LinkListItem--blocked > a {
-  color: #a94442;
+/* Link States */
+.LinkList__item--blocked > a {
+  color: var(--link-blocked);
 }
 
-.LinkListItem--duplicate > a {
-  color: #aaa;
+.LinkList__item--duplicate > a {
+  color: var(--link-duplicate);
 }
 
-.LinkListItem--blocked.LinkListItem--duplicate > a {
-  color: #ebccd1;
+.LinkList__item--blocked.LinkList__item--duplicate > a {
+  color: var(--link-blocked-duplicate);
 }
 
-.LinkPageOptionsForm .form-group {
-  margin-bottom: 1em;
-}
-
-.LinkPageOptionsForm > .form-group + .form-group {
-  margin-left: 1em;
-}
-@media (max-width: 767px) {
-  .LinkPageOptionsForm {
-    margin-bottom: 0em;
+/* Responsive Design */
+@media (max-width: var(--mobile-breakpoint)) {
+  .LinkPage__form {
+    margin-bottom: 0;
   }
-  .LinkPageOptionsForm > .form-group + .form-group {
+  
+  .LinkPage__form-group + .LinkPage__form-group {
     margin-left: 0;
   }
-}
-
-.LinkPageOptionsForm .checkbox-inline {
-  user-select: none;
 }

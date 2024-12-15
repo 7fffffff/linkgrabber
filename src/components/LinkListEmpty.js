@@ -1,12 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default function LinkListEmpty (props) {
-  return (
-    <div className="container-fluid">
-      <h1 className="LinkPageHeader">{props.source}</h1>
-      <p>
-        No links were found.
-      </p>
-    </div>
-  );
-}
+const LinkListEmpty = ({ source }) => (
+  <div className="container-fluid">
+    <h1 className="LinkPage__header">{source}</h1>
+    <p className="LinkPage__message">No links were found.</p>
+  </div>
+);
+
+LinkListEmpty.propTypes = {
+  source: PropTypes.string
+};
+
+export default LinkListEmpty;

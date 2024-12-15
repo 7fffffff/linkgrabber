@@ -1,3 +1,66 @@
-.BadDomainsActionCol {
-  width: 5em;
+:root {
+  --success-color: #28a745;
+  --spacing-unit: 1em;
+  --text-color: #333;
+}
+
+.Options__title {
+  margin-bottom: var(--spacing-unit);
+  color: var(--text-color);
+}
+
+.Options__help-text {
+  margin-bottom: var(--spacing-unit);
+  line-height: 1.5;
+}
+
+.Options__help-text p {
+  margin-bottom: 0.5em;
+}
+
+.Options__help-text code {
+  background-color: #f8f9fa;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+}
+
+.Options__form-group {
+  margin-bottom: var(--spacing-unit);
+}
+
+.Options__textarea {
+  font-family: monospace;
+  resize: vertical;
+  min-height: 200px;
+}
+
+.Options__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Options__status {
+  flex-grow: 1;
+}
+
+.Options__success {
+  color: var(--success-color);
+  font-weight: 500;
+}
+
+.Options__submit {
+  min-width: 80px;
+}
+
+@media (max-width: 767px) {
+  .Options__actions {
+    flex-direction: column-reverse;
+    gap: var(--spacing-unit);
+  }
+
+  .Options__status {
+    text-align: center;
+    width: 100%;
+  }
 }

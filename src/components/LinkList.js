@@ -166,9 +166,9 @@ export default function LinkList(props) {
         return memo;
       }
     }
-    const itemClassName = cx('LinkListItem', {
-      'LinkListItem--blocked': blocked[index],
-      'LinkListItem--duplicate': duplicates[index],
+    const itemClassName = cx('LinkList__item', {
+      'LinkList__item--blocked': blocked[index],
+      'LinkList__item--duplicate': duplicates[index],
     });
     memo.push(
       <li key={index} className={itemClassName}>
@@ -180,31 +180,42 @@ export default function LinkList(props) {
 
   return (
     <div className="container-fluid">
-      <h1 className="LinkPageHeader">{props.source}</h1>
+      <h1 className="LinkPage__header">{props.source}</h1>
       <div className="clearfix">
-        <div className="form-inline LinkPageOptionsForm">
-          <div className="form-group">
-            <label className="checkbox-inline">
+        <div className="LinkPage__form form-inline">
+          <div className="LinkPage__form-group form-group">
+            <label className="LinkPage__checkbox checkbox-inline">
               <input type="checkbox" checked={hideDuplicates} onChange={toggleDedup} /> Hide duplicate links
             </label>
-            <label className="checkbox-inline">
+            <label className="LinkPage__checkbox checkbox-inline">
               <input type="checkbox" checked={hideBlockedDomains} onChange={toggleBlockedLinks} /> Hide blocked links
             </label>
-            <label className="checkbox-inline">
+            <label className="LinkPage__checkbox checkbox-inline">
               <input type="checkbox" checked={hideSameOrigin} onChange={toggleHideSameOrigin} /> Hide same origin
             </label>
-            <label className="checkbox-inline">
+            <label className="LinkPage__checkbox checkbox-inline">
               <input type="checkbox" checked={groupByDomain} onChange={toggleGroupByDomain} /> Group by domain
             </label>
-            <label className="checkbox-inline">
+            <label className="LinkPage__checkbox checkbox-inline">
               <input type="checkbox" checked={reverseFilter} onChange={toggleReverseFilter} /> Remove filter matches
             </label>
           </div>
-          <div className="form-group">
-            <input type="text" className="form-control" placeholder="substring filter" autoFocus value={nextFilter} onChange={filterChanged} />
+          <div className="LinkPage__form-group form-group">
+            <input 
+              type="text" 
+              className="form-control" 
+              placeholder="substring filter" 
+              autoFocus 
+              value={nextFilter} 
+              onChange={filterChanged} 
+            />
           </div>
-          <div className="form-group LinkPageStatus">
-            <button className="btn btn-default" disabled={items.length === 0} onClick={() => copyLinks(linkListRef.current)}>
+          <div className="LinkPage__form-group LinkPage__status form-group">
+            <button 
+              className="btn btn-default" 
+              disabled={items.length === 0} 
+              onClick={() => copyLinks(linkListRef.current)}
+            >
               Copy {items.length} / {props.links.length}
             </button>
           </div>
