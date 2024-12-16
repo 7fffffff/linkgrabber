@@ -109,6 +109,8 @@ export default function LinkList(props) {
   const [hideSameOrigin, setHideSameOrigin] = useState(false);
   const [reverseFilter, setReverseFilter] = useState(false);
   const [showSameOrigin, setShowSameOrigin] = useState(false);
+  const [sortAsc, setSortAsc] = useState(true);
+  const [sortDesc, setSortDesc] = useState(false);
 
   const applyFilter = debounce(() => setFilter(nextFilter), 100, {trailing: true});
   const filterChanged = (event) => setNextFilter(event.target.value);
@@ -118,6 +120,14 @@ export default function LinkList(props) {
   const toggleHideSameOrigin = () => setHideSameOrigin(x => !x);
   const toggleReverseFilter = () => setReverseFilter(x => !x);
   const toggleShowSameOrigin = () => setShowSameOrigin(x => !x);
+  const toggleSortAsc = () => {
+    setSortAsc(true);
+    setSortDesc(false);
+  };
+  const toggleSortDesc = () => {
+    setSortAsc(false);
+    setSortDesc(true);
+  };
 
   useEffect(() => {
     const h = (event) => {
@@ -151,6 +161,12 @@ export default function LinkList(props) {
   }
   if (groupByDomain) {
     links = groupLinksByDomain(links);
+  }
+
+  if (sortAsc) {
+    links.sort((a, b) => a.href.localeCompare(b.href));
+  } else if (sortDesc) {
+    links.sort((a, b) => b.href.localeCompare(a.href));
   }
 
   const blocked = mapBlocked(links, props.blockedDomains);
@@ -206,6 +222,12 @@ export default function LinkList(props) {
             </label>
             <label className="LinkPage__checkbox checkbox-inline">
               <input type="checkbox" checked={reverseFilter} onChange={toggleReverseFilter} /> Remove filter matches
+            </label>
+            <label className="LinkPage__checkbox checkbox-inline">
+              <input type="checkbox" checked={sortAsc} onChange={toggleSortAsc} /> Sort Ascending
+            </label>
+            <label className="LinkPage__checkbox checkbox-inline">
+              <input type="checkbox" checked={sortDesc} onChange={toggleSortDesc} /> Sort Descending
             </label>
           </div>
           <div className="LinkPage__form-group form-group">
