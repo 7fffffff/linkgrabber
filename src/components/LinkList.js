@@ -108,6 +108,7 @@ export default function LinkList(props) {
   const [hideDuplicates, setHideDuplicates] = useState(true);
   const [hideSameOrigin, setHideSameOrigin] = useState(false);
   const [reverseFilter, setReverseFilter] = useState(false);
+  const [showSameOrigin, setShowSameOrigin] = useState(false);
 
   const applyFilter = debounce(() => setFilter(nextFilter), 100, {trailing: true});
   const filterChanged = (event) => setNextFilter(event.target.value);
@@ -116,6 +117,7 @@ export default function LinkList(props) {
   const toggleGroupByDomain = () => setGroupByDomain(x => !x);
   const toggleHideSameOrigin = () => setHideSameOrigin(x => !x);
   const toggleReverseFilter = () => setReverseFilter(x => !x);
+  const toggleShowSameOrigin = () => setShowSameOrigin(x => !x);
 
   useEffect(() => {
     const h = (event) => {
@@ -143,6 +145,9 @@ export default function LinkList(props) {
 
   if (hideSameOrigin) {
     links = rejectSameOrigin(links, props.source);
+  }
+  if (showSameOrigin) {
+    links = links.filter(link => link.origin === new URL(props.source).origin);
   }
   if (groupByDomain) {
     links = groupLinksByDomain(links);
@@ -192,6 +197,9 @@ export default function LinkList(props) {
             </label>
             <label className="LinkPage__checkbox checkbox-inline">
               <input type="checkbox" checked={hideSameOrigin} onChange={toggleHideSameOrigin} /> Hide same origin
+            </label>
+            <label className="LinkPage__checkbox checkbox-inline">
+              <input type="checkbox" checked={showSameOrigin} onChange={toggleShowSameOrigin} /> Show same origin
             </label>
             <label className="LinkPage__checkbox checkbox-inline">
               <input type="checkbox" checked={groupByDomain} onChange={toggleGroupByDomain} /> Group by domain
