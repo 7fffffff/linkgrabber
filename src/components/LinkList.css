@@ -3,6 +3,7 @@
   line-height: normal;
   overflow-x: hidden;
   text-overflow: ellipsis;
+  color: var(--text-color);
 }
 
 .LinkPageStatus {
@@ -15,26 +16,33 @@
 }
 
 .LinkListItem {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--border-color);
   padding-left: 0.5em;
   padding-right: 0.5em;
   word-wrap: break-word;
+  background-color: var(--bg-primary);
+  transition: background-color 0.3s ease;
 }
 
 .LinkListItem:nth-child(odd) {
-  background-color: #F5F5F5;
+  background-color: var(--bg-secondary);
+}
+
+.LinkListItem a {
+  color: var(--link-color);
+  transition: color 0.3s ease;
 }
 
 .LinkListItem--blocked > a {
-  color: #a94442;
+  color: var(--link-blocked);
 }
 
 .LinkListItem--duplicate > a {
-  color: #aaa;
+  color: var(--link-duplicate);
 }
 
 .LinkListItem--blocked.LinkListItem--duplicate > a {
-  color: #ebccd1;
+  color: var(--link-blocked-duplicate);
 }
 
 .LinkPageOptionsForm .form-group {
@@ -44,6 +52,45 @@
 .LinkPageOptionsForm > .form-group + .form-group {
   margin-left: 1em;
 }
+
+.LinkPageOptionsForm .checkbox-inline {
+  user-select: none;
+  color: var(--text-color);
+}
+
+.form-control {
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border-color: var(--input-border);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.form-control:focus {
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border-color: var(--link-color);
+}
+
+.btn-default {
+  background-color: var(--button-bg);
+  color: var(--text-color);
+  border-color: var(--button-border);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  background-image: none !important;
+}
+
+.btn-default:hover:not(:disabled) {
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+  color: var(--button-text);
+}
+
+.btn-default:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  color: var(--button-text);
+}
+
 @media (max-width: 767px) {
   .LinkPageOptionsForm {
     margin-bottom: 0em;
@@ -51,8 +98,4 @@
   .LinkPageOptionsForm > .form-group + .form-group {
     margin-left: 0;
   }
-}
-
-.LinkPageOptionsForm .checkbox-inline {
-  user-select: none;
 }

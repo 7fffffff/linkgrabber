@@ -1,5 +1,5 @@
 import React from 'react';
-import {useEffect, useRef, useState} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import cx from 'classnames';
 import debounce from 'lodash.debounce';
 import LinkListEmpty from './LinkListEmpty';
@@ -108,12 +108,17 @@ export default function LinkList(props) {
   const [hideDuplicates, setHideDuplicates] = useState(true);
   const [hideSameOrigin, setHideSameOrigin] = useState(false);
 
-  const applyFilter = debounce(() => setFilter(nextFilter), 100, {trailing: true});
+  const applyFilter = debounce(() => setFilter(nextFilter), 100, { trailing: true });
   const filterChanged = (event) => setNextFilter(event.target.value);
   const toggleBlockedLinks = () => setHideBlockedDomains(x => !x);
   const toggleDedup = () => setHideDuplicates(x => !x);
   const toggleGroupByDomain = () => setGroupByDomain(x => !x);
   const toggleHideSameOrigin = () => setHideSameOrigin(x => !x);
+  const toggleDarkMode = () => setDarkMode(x => !x);
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem('darkMode');
+    return saved ? JSON.parse(saved) : false;
+  });
 
   useEffect(() => {
     const h = (event) => {
@@ -129,6 +134,11 @@ export default function LinkList(props) {
   }, []);
 
   useEffect(applyFilter, [nextFilter]);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+  }, [darkMode]);
 
   if (props.expired) {
     return (<LinkListExpired />);
@@ -197,6 +207,9 @@ export default function LinkList(props) {
             <input type="text" className="form-control" placeholder="substring filter" autoFocus value={nextFilter} onChange={filterChanged} />
           </div>
           <div className="form-group LinkPageStatus">
+            <button className="btn btn-default btn-theme-toggle" onClick={toggleDarkMode} style={{ marginRight: '10px' }}>
+              {darkMode ? '☀️' : '🌙'}
+            </button>
             <button className="btn btn-default" disabled={items.length === 0} onClick={() => copyLinks(linkListRef.current)}>
               Copy {items.length} / {props.links.length}
             </button>
